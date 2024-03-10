@@ -1,0 +1,3 @@
+EscortShipType getRandomShip();
+char * getBattalianShips();
+

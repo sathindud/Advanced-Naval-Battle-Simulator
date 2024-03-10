@@ -1,0 +1,2 @@
+void inputBattalianShip();
+void inputEscortShips();

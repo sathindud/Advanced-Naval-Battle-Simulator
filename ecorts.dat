@@ -1,0 +1,6 @@
+type, name, gun_name, impact_power, angle_range, min_angle, min_velocity, max_volocity
+Ea, 1936A-class Destroyer, SK C/34 naval gun, 0.08, 20, random, random, 1.2
+Eb, Gabbiano-class Convertte, L/47 dual-purpose gun, 0.06, 30, random, random
+Ec, Matsu-class Destroyer, Type 89 dual-purpose gun, 0.07, 25, random, random
+Ed, F-class Escort Ships, SK C/32 naval gun, 0.05, 50, random, random, random
+Ee, Japanese Kaibokan, naval guns, 0.04, 70 random, random, random 

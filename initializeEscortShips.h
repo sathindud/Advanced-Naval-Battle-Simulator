@@ -1,2 +1,1 @@
-void inputBattalianShip();
-void inputEscortShips();
+void initializeEscortShips();

@@ -17,17 +17,17 @@ void initializeEscortShips()
 
         //Incializing the InicialConditionEscort variable
         InitialConditionsEscort escort;
-
-        //creating the initial condition escort file
-        FILE *escort_file;
-        escort_file = fopen("initial_condition_escort.dat", "w");
 	
         //Inputting the number of escort ships
         printf("Enter the number of escort ships: ");
         int n;
         scanf("%d", &n);
 
-        //Inputting the inicial conditions for each escort ship and writing it to the file.
+        //creating the initial condition escort file
+        FILE *escort_file;
+        escort_file = fopen("initial_condition_escort.dat", "w");
+        
+	//Inputting the inicial conditions for each escort ship and writing it to the file.
         fprintf(escort_file, "index, position, maxV, minV, maxA, minA, type\n");
         for (int i = 0; i < n; i++)
         {
@@ -70,16 +70,17 @@ void initializeEscortShips()
 
 
 		//printing in the file
-                fprintf(escort_file, "%d, %d, %d, %f, %f, %f, %f, %s\n", escort.index, escort.x, escort.y, escort.maxV, escort.minV, escort.maxA, escort.minA, escort.type);
+                fprintf(escort_file, "%d, %f, %f, %f, %f, %s\n", escort.index, escort.maxV, escort.minV, escort.maxA, escort.minA, escort.type);
 
         }
         fclose(escort_file);
 }
 
-
+/*
 int main()
 {
 	initializeRandom();
 	initializeEscortShips();
 	return 0;
-}	
+}
+*/

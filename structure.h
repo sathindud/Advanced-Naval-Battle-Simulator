@@ -1,31 +1,22 @@
 #define BATTALIAN_SHIP_COUNT 4
 
 typedef struct{
+	int x;
+	int y;
+}Coordinates;
+
+// Creatinf a Structure for Escort Ships
+typedef struct{
         int index;
-        int x;
-        int y;
-        float maxV;
+        Coordinates position;
+	float maxV;
         float minV;
         float maxA;
         float minA;
         char type[5];
 }InitialConditionsEscort;
 
-// Creating a Structer for Battalian Ships
-typedef struct{
-        int x;
-        int y;
-        float maxV;
-        char type;
-}InitialConditionsBattalian;
-
-//Creating a structure for Battalian Ship Types
-typedef struct{
-	char name[10];
-	char type;
-	char gun_name[10];
-}BattalianShipType;
-
+//Creatinf a Structure for EscortShip types
 typedef struct{
 	char type[5];
 	char name[10];
@@ -36,3 +27,17 @@ typedef struct{
 	float maxV;
 	float minV;
 }EscortShipType;
+
+// Creating a Structer for Battalian Ships
+typedef struct{
+        Coordinates position;
+	float maxV;
+        char type;
+}InitialConditionsBattalian;
+
+//Creating a structure for Battalian Ship Types
+typedef struct{
+	char name[10];
+	char type;
+	char gun_name[10];
+}BattalianShipType;

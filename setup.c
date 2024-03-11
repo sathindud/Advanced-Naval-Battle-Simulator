@@ -1,26 +1,77 @@
 #include<stdio.h>
 #include"initializeEscortShips.h"
+#include"initializeBattalianShip.h"
 #include"structure.h"
+#include<stdbool.h>
 
+//User input the size of the canvas
+Coordinates initializeCanvas()
+{
+	
+	Coordinates size;
+
+	printf("Enter the 2D square canvas size: (x y) :");
+	scanf("%d %d", &size.x, &size.y);
+
+	return size;
+}
+int menue()
+{
+	int menue_number;
+	printf("1: Setting up Canvas \n");
+	printf("2: BattalianShip Propoties \n");
+	printf("3: EscortShips Propoties \n");
+	printf("44: Go Back\n");
+	scanf("%d", &menue_number);
+	return menue_number;
+}
 void setup()
 {
-	//Incializing the Battalian Ship variable
-        InitialConditionsBattalian battalian;
+	int menue_number;
+	Coordinates canvas_size;
+	canvas_size.x = 0;
+	menue_number = menue();
 
-        //creating the initial condition escort file
-        FILE *battalian_file;
-        battalian_file = fopen("initial_condition_battalian.dat", "w");
+	int exit = true;
+	while (true)
+	{
+		switch(menue_number){
+			case 1:
+				canvas_size = initializeCanvas();
+				break;
+			case 2:
+				if (canvas_size.x == 0)
+					printf("Enter the Canvas Size first\n");
+				else
+					initializeBattalianShip(canvas_size);
+				break;
 
-        printf("Enter the Battalian Ship Position (x y): ");
-        scanf("%d %d", &battalian.x, &battalian.y);
-        printf("Enter the Battalian Ship Type: ");
-        scanf("%s", &battalian.type);
-        printf("Enter the maximum velocity: ");
-        scanf("%f", &battalian.maxV);
+			case 3:
+				if (canvas_size.x == 0)
+					printf("Enter the Canvas Size first\n");
+				else
+					initializeEscortShips(canvas_size);
+				break;
 
-        //Inputting the inicial conditions for each escort ship and writing it to the file.
-        fprintf(battalian_file, "index, type, maxV\n");
-        fprintf(battalian_file, "%d, %d, %c, %f\n", battalian.x, battalian.y, battalian.type, battalian.maxV);
+			case 44:
+				exit = false;
+				break;
 
-        fclose(battalian_file);
+			default:
+				printf("Invalid Input");
+				break;
+		}
+		if (exit)
+			menue_number = menue();
+		else
+			break;
+	}
 
+}
+
+
+int main()
+{
+	setup();
+	return 0;
+}

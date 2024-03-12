@@ -1,8 +1,10 @@
 #include<stdio.h>
-#include"initializeEscortShips.h"
-#include"initializeBattalianShip.h"
-#include"structure.h"
 #include<stdbool.h>
+
+
+#include"../header_files/initializeEscortShips.h"
+#include"../header_files/initializeBattalianShip.h"
+#include"../header_files/structure.h"
 
 //User input the size of the canvas
 Coordinates initializeCanvas()
@@ -68,7 +70,6 @@ void setup()
 	}
 
 }
-
 
 int main()
 {

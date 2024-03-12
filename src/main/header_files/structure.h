@@ -19,10 +19,10 @@ typedef struct{
 //Creatinf a Structure for EscortShip types
 typedef struct{
 	char type[5];
-	char name[10];
-	char gun_name[10];
+	char name[50];
+	char gun_name[50];
 	float impact_power;
-	float angle_range;
+	int angle_range;
 	float minA;
 	float maxV;
 	float minV;

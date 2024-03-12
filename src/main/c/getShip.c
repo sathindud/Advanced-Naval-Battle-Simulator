@@ -2,8 +2,8 @@
 #include<string.h>
 #include<stdlib.h>
 
-#include"structure.h"
-#include"random.h"
+#include"../header_files/structure.h"
+#include"../header_files/random.h"
 
 char * getBattalianShips()
 {
@@ -13,7 +13,7 @@ char * getBattalianShips()
 	
 	//opening the battalian ships file
 	FILE *battalian;
-	battalian= fopen("battalian_ships.dat", "r");
+	battalian= fopen("../../resource/battalian_types.dat", "r");
 	
 	if (battalian == NULL)
 		printf("Cannot open the battalian ship file");
@@ -84,7 +84,7 @@ EscortShipType getRandomShip()
 
 	//opening the escort ships file
 	FILE *escort;
-	escort = fopen("ecorts.dat", "r");
+	escort = fopen("../../resource/ecorts_types.dat", "r");
 	
 	if (escort == NULL)
 		printf("Cannot open the escort ship file");
@@ -105,6 +105,7 @@ EscortShipType getRandomShip()
 
 
 		//spliting the values by comma
+		//sscanf(line, "%[^,],%d,%d", name, &age, &salary);
 		char * value = strtok(buffer, ", ");
 		while (value) {
 		
@@ -122,7 +123,7 @@ EscortShipType getRandomShip()
 					ship.impact_power = atof(value);
 					break;
 				case 4:
-					ship.angle_range = atof(value);
+					ship.angle_range = atoi(value);
 					break;
 				case 5:
 					ship.minA = atof(value);
@@ -149,15 +150,20 @@ EscortShipType getRandomShip()
 
 	return ship;
 }
-/*
-int main()
-{
-	char * x = getBattalianShips();
-	EscortShipType ship;
-	int x = intRandomNumber(2, 6);
-	loadFile(&ship, x);
-	printf("Ransom: %d Value: %s\n", x,ship.type);
-	
-	return 0;
-}
-*/
+
+// int main()
+// {
+
+// 	EscortShipType e;
+// 	e = getRandomShip();
+// 	printf("%d", e.angle_range);
+// 	/*
+// 	char * x = getBattalianShips();
+// 	EscortShipType ship;
+// 	int x = intRandomNumber(2, 6);
+// 	loadFile(&ship, x);
+// 	printf("Ransom: %d Value: %s\n", x,ship.type);
+// 	*/
+// 	return 0;
+// }
+

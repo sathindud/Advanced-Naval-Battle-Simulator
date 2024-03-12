@@ -1,9 +1,11 @@
 #include<stdio.h>
-#include"structure.h"
-#include"getShip.h"
-#include"random.h"
 #include<stdlib.h>
 #include<stdbool.h>
+
+#include"../header_files/structure.h"
+#include"../header_files/getShip.h"
+#include"../header_files/random.h"
+
 
 Coordinates initializePosition(Coordinates canvas_size)
 {
@@ -87,7 +89,7 @@ void initializeBattalianShip(Coordinates canvas_size)
         
 	//creating the initial condition escort file
         FILE *battalian_file;
-        battalian_file = fopen("initial_condition_battalian.dat", "w");
+        battalian_file = fopen("../../log/initial_condition_battalian.dat", "w");
 
         //writing the inicial conditions for each escort ship and writing it to the file.
         fprintf(battalian_file, "index, type, maxV\n");

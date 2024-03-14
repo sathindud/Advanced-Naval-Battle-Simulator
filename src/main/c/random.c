@@ -17,6 +17,7 @@ float floatRandomNumber(float lower, float upper)
 int  intRandomNumber(int lower, int upper)
 {
         int num = (rand() % (upper - lower + 1)) + lower;
+		printf("%d\n", num);
         return num;
 }
 /*

@@ -6,6 +6,7 @@
 #include "../header_files/structure.h"
 #include "../header_files/random.h"
 #include "../header_files/loadInitial.h"
+#include "../header_files/saveSimulation.h"
 
 #define BMAX_ANGLE 45
 
@@ -14,17 +15,22 @@
 */
 float range(int angle, float velocity)
 {
-	return (velocity * velocity) * sin(2* angle * 3.14 / 180) / 10;
+	return (velocity * velocity) * sin(2* angle * 3.14 / 180) / GRAVITY;
+}
+
+float getDistance(Coordinates attacker, Coordinates victim)
+{
+    int x = abs(attacker.x - victim.x);
+	int y = abs(attacker.y - victim.y);
+	return sqrt((x*x) + (y*y));
 }
 
 /**
  * Checking the 
 */
-bool check(Coordinates attacker, Coordinates victim, float min_range, float max_range)
+bool check(float distance, float min_range, float max_range)
 {
-	int x = abs(attacker.x - victim.x);
-	int y = abs(attacker.y - victim.y);
-	float distance = sqrt((x*x) + (y*y));
+	
 	// printf("Distance between b and e %f\n", distance);
 
 	if (distance >= min_range && distance <= max_range )
@@ -59,8 +65,11 @@ void findMaxMinAngle(float * minA, float * maxA)
 
 }
 
-bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_count], Coordinates battalian)
+bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_count], Coordinates battalian, BattalianShipLog * Blog)
 {
+    Blog->position.x = battalian.x;
+    Blog->position.y = battalian.y;
+
     for (int i = 0; i < escort_count; i++)
     {
         // printf("------------------------------\n");
@@ -81,11 +90,17 @@ bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_co
         float ship_min_range = range(escort[i].minA,  exact_velocity); 
 
         // printf("Min Attacking Range %f \n", ship_min_range);
+
+        float distance = getDistance(escort[i].position, battalian);
      
-        if (check(escort[i].position, battalian, ship_min_range, ship_max_range))
+        if (check(distance, ship_min_range, ship_max_range))
         {
             printf("Battalian Ship is going to sink\n");
-            printf("Attacked by the %d escort ship\n", i);
+            Blog->escort_index = i;
+
+            printf("Attacked Escort Ship index: %d\n", i);
+            Blog->battaleship_status = 0;
+
             return true;
 
         }else{
@@ -93,37 +108,71 @@ bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_co
         }
     }
     printf("BattalianShip is not hit by the Escort ship\n");
+    Blog->battaleship_status = 1;
     return false;
+}
+float calculateTime(float velocity, float distance)
+{
+    return distance / cos(velocity * 3.14 / 180) ;
 }
 
 void battalianSimulation(InitialConditionsBattalian battalian, int escort_count, InitialConditionsEscort escort[escort_count])
 {
+    EscortShipsLog Elog;
     float ship_max_range = range(BMAX_ANGLE, battalian.maxV);
     // printf("Battalian Ship Range: %f", battalian.maxV);
 
     int attacked_count = 0;
+    float total_time = 0;
+
 
     for (int i = 0; i < escort_count; i++)
     {
-        if(check(battalian.position, escort[i].position, 0, ship_max_range))
+        float distance = getDistance(battalian.position, escort[i].position);
+
+        if(check(distance, 0, ship_max_range))
         {
-            printf("Escort Ship %d is attacked by the battalian\n", escort[i].index);
+            // printf("Escort Ship %d is attacked by the battalian\n", escort[i].index);
+            float time = calculateTime(battalian.maxV, distance);
+            total_time += time;
             attacked_count ++;
+
+            Elog.index = escort[i].index;
+            Elog.time = time;
+            saveEscortLog(Elog);
         }
     }
-    printf("%d Escort Ships are attacked by the Battalian Ship\n ", attacked_count);
+    printf("Attacked Escort Ships Count: %d \n ", attacked_count);
+    printf("Total time it takes: %fs \n ", total_time);
     
 }
 
+
 void simulation1()
 {
+    resetBattalianLog();
+    resetEscortLog();
+
     int escort_ship_count;
     InitialConditionsEscort * escort_ships = loadEscortShip( & escort_ship_count);
     InitialConditionsBattalian battalian = loadBattalianShip();
 
-    if (!escortSimulation(escort_ship_count, escort_ships, battalian.position))
+    BattalianShipLog Blog;
+
+    // EscortShipsLog * Elog = (EscortShipsLog *)calloc(escort_ship_count, sizeof(EscortShipsLog) )
+
+    if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &Blog))
     {
         battalianSimulation(battalian, escort_ship_count, escort_ships);
+    }else{
+        saveBattalianLog(Blog);
     }
+
+
     free(escort_ships);
+}
+
+void sumulation2()
+{
+    
 }

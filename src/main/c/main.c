@@ -139,7 +139,7 @@ int main()
 		case 3:
 			break;
 		default:
-			printf("Invalid User Input");
+			printf("Invalid User Input\n");
 			break;
 		}
 		printf("1. Set Up \n");

@@ -51,7 +51,7 @@ void initializeBattalianShip(Coordinates canvas_size)
         while(true)
 	{
 
-		int n = BATTALIAN_SHIP_COUNT;
+		int n = BATTALIAN_SHIPS_TYPES;
 		while(n > 0)
 		{
 			if(types[n] == battalian.type)

@@ -8,7 +8,7 @@
 char * getBattalianShips()
 {
 	// char * ship_notation = (char *)(BATTALIAN_SHIP_COUNT); 
-	char * ship_notation = (char *)malloc(BATTALIAN_SHIP_COUNT);
+	char * ship_notation = (char *)malloc(BATTALIAN_SHIPS_TYPES);
 
 
 

@@ -1,4 +1,4 @@
-#define BATTALIAN_SHIP_COUNT 4
+#define BATTALIAN_SHIPS_TYPES 4
 #define GRAVITY 9.8
 
 
@@ -43,3 +43,14 @@ typedef struct{
 	char type;
 	char gun_name[10];
 }BattalianShipType;
+
+typedef struct{
+	Coordinates position;
+	int battaleship_status;
+	int escort_index;
+}BattalianShipLog;
+
+typedef struct{
+	int index;
+	float time;
+}EscortShipsLog;

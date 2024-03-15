@@ -1,4 +1,6 @@
 #define BATTALIAN_SHIP_COUNT 4
+#define GRAVITY 9.8
+
 
 typedef struct{
 	int x;
@@ -9,7 +11,7 @@ typedef struct{
 typedef struct{
         int index;
         Coordinates position;
-	float maxV;
+		float maxV;
         float minV;
         float maxA;
         float minA;
@@ -30,9 +32,9 @@ typedef struct{
 
 // Creating a Structer for Battalian Ships
 typedef struct{
-        Coordinates position;
+    Coordinates position;
 	float maxV;
-        char type;
+    char type;
 }InitialConditionsBattalian;
 
 //Creating a structure for Battalian Ship Types

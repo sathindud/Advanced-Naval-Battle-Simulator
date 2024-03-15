@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "random.h": "c"
+        "random.h": "c",
+        "cmath": "c",
+        "complex": "c"
     }
 }

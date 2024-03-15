@@ -10,10 +10,9 @@
 #define MAXVELOCITY 100
 #define MINANGLE 1
 #define MAXANGLE 90
-#define GRAVITY 9.8
 
 
-Coordinates initializePosition(Coordinates canvas_size)
+Coordinates initializeEPosition(Coordinates canvas_size)
 {
 	Coordinates position;
 	position.x = intRandomNumber(0, canvas_size.x);
@@ -56,6 +55,14 @@ void initializeEscortShips(Coordinates battalian, Coordinates canvas_size)
 	int n;
 	scanf("%d", &n);
 
+	// while (n <= 0 && n > (canvas_size.x * canvas_size.y) -1)
+	// {
+	// 	printf("Enter a valid escort ship count\n");
+	// 	printf("Enter the number of escort ships: \n");
+	// 	scanf("%d", &n);
+	// }
+	
+
 	Coordinates ship_positions[n+1];
 	ship_positions[0] = battalian;
 
@@ -84,7 +91,7 @@ void initializeEscortShips(Coordinates battalian, Coordinates canvas_size)
 	/**
 	 * Randomly Selecting the Escort ships
 	 */
-	Coordinates temp_position = initializePosition(canvas_size);
+	Coordinates temp_position = initializeEPosition(canvas_size);
 	while(true)
 	{
 		if (validatePosition(temp_position, i+1, ship_positions))
@@ -93,7 +100,7 @@ void initializeEscortShips(Coordinates battalian, Coordinates canvas_size)
 			escort.position = temp_position;
 			break;
 		}else
-			temp_position =  initializePosition(canvas_size);
+			temp_position =  initializeEPosition(canvas_size);
 	}
 
 
@@ -128,19 +135,19 @@ void initializeEscortShips(Coordinates battalian, Coordinates canvas_size)
 	fclose(escort_file);
 }
 
-int main()
-{
-	initializeRandom();
-//	initializeRandom();
-	Coordinates val;
-	val.x = 2;
-	val.y = 3;
+// int main()
+// {
+// 	initializeRandom();
+// //	initializeRandom();
+// 	Coordinates val;
+// 	val.x = 2;
+// 	val.y = 3;
 	
-	Coordinates val2;
-	val2.x = 10;
-	val2.y = 10;
+// 	Coordinates val2;
+// 	val2.x = 10;
+// 	val2.y = 10;
 
 
-	initializeEscortShips(val, val2);
-	return 0;
-}
+// 	initializeEscortShips(val, val2);
+// 	return 0;
+// }

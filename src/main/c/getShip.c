@@ -7,7 +7,10 @@
 
 char * getBattalianShips()
 {
-	char * ship_notation = malloc(BATTALIAN_SHIP_COUNT); ;
+	// char * ship_notation = (char *)(BATTALIAN_SHIP_COUNT); 
+	char * ship_notation = (char *)malloc(BATTALIAN_SHIP_COUNT);
+
+
 
 	BattalianShipType ship;
 	
@@ -16,8 +19,7 @@ char * getBattalianShips()
 	battalian= fopen("../../resource/battalian_types.dat", "r");
 	
 	if (battalian == NULL)
-		printf("Cannot open the battalian ship file");
-
+		printf("Cannot open the battalian ship file\n");
 
 	char buffer[1024];
 	int row = 0;
@@ -141,7 +143,7 @@ EscortShipType getRandomShip()
 			colum++;
 		}
 
-		//breaking the loop after the random ship reads
+		//breaking the loop after the random ship rinitializeBattalianShip(canvas_size);eads
 		if (row == random)
 			break;
 	}
@@ -154,16 +156,14 @@ EscortShipType getRandomShip()
 // int main()
 // {
 
-// 	EscortShipType e;
-// 	e = getRandomShip();
-// 	printf("%d", e.angle_range);
-// 	/*
+// 	// EscortShipType e;
+// 	// e = getRandomShip();
+// 	// printf("%d", e.angle_range);
 // 	char * x = getBattalianShips();
-// 	EscortShipType ship;
-// 	int x = intRandomNumber(2, 6);
-// 	loadFile(&ship, x);
-// 	printf("Ransom: %d Value: %s\n", x,ship.type);
-// 	*/
+// 	// EscortShipType ship;
+// 	// int x = intRandomNumber(2, 6);
+// 	// loadFile(&ship, x);
+// 	// printf("Ransom: %d Value: %s\n", x,ship.type);
 // 	return 0;
 // }
 

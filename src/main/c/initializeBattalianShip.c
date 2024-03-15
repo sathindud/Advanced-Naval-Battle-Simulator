@@ -1,13 +1,14 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<math.h>
 
 #include"../header_files/structure.h"
 #include"../header_files/getShip.h"
 #include"../header_files/random.h"
 
 
-Coordinates initializePosition(Coordinates canvas_size)
+Coordinates initializeBPosition(Coordinates canvas_size)
 {
 	/**
 	 * Implemnet the user to see the 2d canvas by displaying the canvas
@@ -51,7 +52,7 @@ void initializeBattalianShip(Coordinates canvas_size)
 	{
 
 		int n = BATTALIAN_SHIP_COUNT;
-		while(n >0)
+		while(n > 0)
 		{
 			if(types[n] == battalian.type)
 			{
@@ -73,18 +74,25 @@ void initializeBattalianShip(Coordinates canvas_size)
 	}
 	free(types);
 
-	Coordinates position = initializePosition(canvas_size);
+	//Entering the BattalianShip Coordinates
+	Coordinates position = initializeBPosition(canvas_size);
 
+	//Setting the Maximum velocity for Battalian ship
 	printf("Do you need generate random value for maximum velocity (y/n): ");
 	char val;
 	scanf("%s", &val);
 
+	//Finding the best maximum velcity according to the canvas size
+	float max_velocity = sqrt((canvas_size.x / 2.0)* GRAVITY);
+
 	if(val == 'y' || val == 'Y')
-		battalian.maxV = floatRandomNumber(0, 1.2);
+		battalian.maxV = floatRandomNumber(0, max_velocity);
 	else
 	{
-		printf("Enter the maximum velocity: ");
-        	scanf("%f", &battalian.maxV);
+		printf("Enter the maximum velocity:\n");
+		printf("note: Maximum velocity according to the canvas size is: %f\n", max_velocity);
+		printf("Entering a value less than value for better performance: ");
+        scanf("%f", &battalian.maxV);
 	}
         
 	//creating the initial condition escort file
@@ -92,11 +100,11 @@ void initializeBattalianShip(Coordinates canvas_size)
         battalian_file = fopen("../../log/initial_condition_battalian.dat", "w");
 
         //writing the inicial conditions for each escort ship and writing it to the file.
-        fprintf(battalian_file, "index, type, maxV\n");
+        fprintf(battalian_file, "position, type, maxV\n");
         fprintf(battalian_file, "%d, %d, %c, %f\n", position.x, position.y, battalian.type, battalian.maxV);
 
         fclose(battalian_file);
-
+		
 }
 /*
 int main()

@@ -5,97 +5,151 @@
 
 
 #include "../header_files/structure.h"
+#include "../header_files/random.h"
+#include "../header_files/initializeBattalianShip.h"
+#include "../header_files/initializeEscortShips.h"
+#include "../header_files/loadInitial.h"
+#include "../header_files/simulation.h"
 
-#define GRAVITY 9.8
 
-float range(int angle, float velocity)
+void setup(Coordinates canvas_size)
 {
-	return (velocity * velocity) * sin(2* angle * 3.14 / 180) / 10;
-}
+	InitialConditionsBattalian battalian = loadBattalianShip();
 
-float findMaxVelocity(Coordinates canvas_size)
-{
-	return sqrt((canvas_size.x / 2.0)* GRAVITY);
-}
+	int user_input;
+	printf("1. Setting Up the Canvas\n");
+	printf("2. Battalianship Propoties\n");
+	printf("3. Escortship Propoties\n");
+	printf("4. Initialize Seed value");
+	printf("44. Go Back\n");
+	scanf("%d", &user_input);
 
-bool check(Coordinates b, Coordinates e, float range)
-{
-	int x = abs(b.x - e.x);
-	int y = abs(b.y - e.y);
-	float r = sqrt((x*x) + (y*y));
-	printf("Distance between b and e %f\n", r);
-
-
-	if ( r < range)
+	while(user_input != 44)
 	{
-		return true;
-	}else
-	{
-		return false;
+		switch (user_input)
+		{
+		case 1:
+			printf("Enter the canvas size (x y): ");
+			scanf("%d %d", &canvas_size.x, &canvas_size.y);
+			break;
+		case 2:
+		/**
+		 * This is not working figure it out later
+		*/
+			if(canvas_size.x == 0)
+			{
+				printf("Set a Canvas Size to continue\n");
+			}else
+			{
+				initializeBattalianShip(canvas_size);
+			}
+			break;
+		case 3:
+			if (canvas_size.x == 0)
+			{
+				printf("Set a Canvas Size for first time to Continue\n");
+
+			}else if (battalian.position.x == -1)
+			{
+				printf("Set the BattalianShip Coordinates for first time to Continue \n");
+			}else{
+				initializeEscortShips(battalian.position, canvas_size);
+			}
+			break;
+		case 4:
+			initializeRandom();
+			break;
+		default:
+			printf("Invalid Input\n");
+			break;
+		}
+		printf("1. Setting Up the Canvas\n");
+		printf("2. Battalianship Propoties\n");
+		printf("3. Escortship Propoties\n");
+		printf("44. Go Back\n");
+		scanf("%d", &user_input);
 	}
 
+
 }
 
+void simulation()
+{
+	int user_input;
+
+	printf("1. Simulation 01\n");
+	printf("2. Simulation 02\n");
+	printf("3. Simulation 03\n");
+	printf("44. Go Back\n");
+	printf("Enter the menue number: ");
+	scanf("%d", &user_input);
+	while (user_input != 44)
+	{
+		switch (user_input)
+		{
+		case 1:
+			simulation1();
+			break;
+		
+		default:
+			printf("Invaild Input\n");
+			break;
+		}
+
+		printf("1. Simulation 01\n");
+		printf("2. Simulation 02\n");
+		printf("3. Simulation 03\n");
+		printf("44. Go Back\n");
+		printf("Enter the menue number: ");
+		scanf("%d", &user_input);
+	}
+	
+}
 
 int main()
 {
-	Coordinates battalian,canvas_size;
+	//need to save this canvas size later
 
-	Coordinates x[4];
-
-	canvas_size.x = 10;
-	canvas_size.y = 10;
-
-	battalian.x = 5;
-	battalian.y = 5;
-
-	float r_max[4];
-	float r_min[4];
-
-	x[0].x = 5;
-	x[0].y = 10;
-
-	float battalian_velocity = findMaxVelocity(canvas_size);
-	printf("Maximum velocity according to the canvas size: %f\n", battalian_velocity);
-
-	float b_range = range(45, battalian_velocity);
-	printf("Battalianship Range %f\n", b_range);
-
-
-	// r_max[0] = range(30, 10);
-	// r_min[0] = range(60, 10);
-
-	x[1].x = 8;
-	x[1].y = 5;
-	// r_max[1] = range(10, 10);
-	// r_min[1] = range(40, 10);
+	Coordinates canvas_size;
 	
-	x[2].x = 1;
-	x[2].y = 3;
-	// r_max[2] = range(10, 10);
-	// r_min[2] = range(35, 10);
+	/**
+	 * Test data need to remove
+	*/
+	initializeRandom();
+	canvas_size.x = 100;
+	canvas_size.y = 100;
 	
-	x[3].x = 10;
-	x[3].y = 10;
-	// r_max[3] = range(10, 10);
-	// r_min[3] = range(60, 10);
+	int user_input;
+	printf("1. Set Up \n");
+	printf("2. Show Simulation\n");
+	printf("44. Exit\n");
+	printf("Enter the menue number: ");
+	scanf("%d", &user_input);
 
-	for (int i = 0; i < 4; i++)
+	while (user_input != 44)
 	{
-		printf("Escort SHip Number: %d\n", i+1);
-
-		if (check(battalian, x[i], b_range))
+		switch (user_input)
 		{
-			printf("Ship is in range\n");
-		}else
-		{
-			printf("Ship is not in the range\n");
+		case 1:
+			setup(canvas_size);
+			break;
+		case 2:
+			simulation();
+			break;
+		case 3:
+			break;
+		default:
+			printf("Invalid User Input");
+			break;
 		}
+		printf("1. Set Up \n");
+		printf("2. Show Simulation\n");
+		printf("44. Exit\n");
+		printf("Enter the menue number: ");
+		scanf("%d", &user_input);
 	}
 	
 
-
-	
 	return 0;
 }
 

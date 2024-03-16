@@ -172,7 +172,45 @@ void simulation1()
     free(escort_ships);
 }
 
-void sumulation2()
+
+void simulation2()
 {
+    resetBattalianLog();
+    resetEscortLog();
+
+    Coordinates canvas_size = loadCanvasSize();
+    InitialConditionsBattalian battalian = loadBattalianShip();
+    Coordinates current_position = battalian.position;
+    
+    Coordinates position;
+    position.x = intRandomNumber(0, canvas_size.x);
+    position.y = intRandomNumber(0, canvas_size.y);
+
+    printf("random position %d %d", position.x, position.y);
+    printf("current position %d %d\n", current_position.x, current_position.y);
+
+    while (current_position.x != position.x)
+    {
+        while(current_position.y != position.y)
+        {
+            printf("current position %d %d\n", current_position.x, current_position.y);
+
+            if (current_position.y > position.y)
+            {
+                current_position.y --;
+            }else{
+                current_position.y ++;
+            }
+        }
+
+        if (current_position.x > position.x)
+        {
+                current_position.x --;
+        }else{
+                current_position.x ++;
+        }
+        printf("current position %d %d\n", current_position.x, current_position.y);
+
+    }
     
 }

@@ -58,18 +58,43 @@ InitialConditionsEscort * loadEscortShip(int * count)
         i++;
     }
     * count = i;
+    fclose(ship_file);
     return ship;
+    
+}
+
+Coordinates loadCanvasSize()
+{
+    Coordinates size;
+
+    FILE * file;
+    file = fopen("../../log/canvas_size.dat", "r");
+    if (file == NULL)   
+    {
+        printf("Error while loading the canvas size file");
+    }
+
+    char line[50];
+    fgets(line, sizeof(line), file);
+    fgets(line, sizeof(line), file);
+    sscanf(line, "%d, %d", &size.x, &size.y);
+    fclose(file);
+
+    return size;
+
     
 }
 // int main()
 // {
-//     InitialConditionsBattalian ship = loadBattalianShip();
-//     printf("%f", ship.maxV);
-//     // InitialConditionsEscort *x = loadEscortShip();
-//     // for(int i = 0; i < 10; i++)
-//     // {
-//     //         printf("%d\n",x[i].position.x);
+//     Coordinates x = loadCanvasSize();
+//     printf("%d %d", x.x, x.y);
+//     // InitialConditionsBattalian ship = loadBattalianShip();
+//     // printf("%f", ship.maxV);
+//     // // InitialConditionsEscort *x = loadEscortShip();
+//     // // for(int i = 0; i < 10; i++)
+//     // // {
+//     // //         printf("%d\n",x[i].position.x);
 
-//     // }
+//     // // }
 //     return 0;
 // }

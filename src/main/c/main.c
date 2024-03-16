@@ -53,7 +53,7 @@ void setup(Coordinates canvas_size)
 			{
 				printf("Set the BattalianShip Coordinates for first time to Continue \n");
 			}else{
-				initializeEscortShips(battalian.position, canvas_size);
+				initializeEscortShips(canvas_size);
 			}
 			break;
 		case 4:
@@ -90,7 +90,9 @@ void simulation()
 		case 1:
 			simulation1();
 			break;
-		
+		case 2:
+			simulation2();
+			break;
 		default:
 			printf("Invaild Input\n");
 			break;

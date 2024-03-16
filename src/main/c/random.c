@@ -1,6 +1,9 @@
 #include<stdlib.h>
 #include<time.h>
 #include<stdio.h>
+#include<stdbool.h>
+
+#include"../header_files/structure.h"
 
 void initializeRandom()
 {
@@ -20,6 +23,7 @@ int  intRandomNumber(int lower, int upper)
 		printf("%d\n", num);
         return num;
 }
+
 /*
 int main()
 {

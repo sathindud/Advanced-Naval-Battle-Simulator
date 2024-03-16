@@ -1,10 +1,9 @@
 #include<stdio.h>
 #include<stdbool.h>
-
+#include"../header_files/structure.h"
 
 #include"../header_files/initializeEscortShips.h"
 #include"../header_files/initializeBattalianShip.h"
-#include"../header_files/structure.h"
 
 //User input the size of the canvas
 Coordinates initializeCanvas()
@@ -15,8 +14,16 @@ Coordinates initializeCanvas()
 	printf("Enter the 2D square canvas size: (x y) :");
 	scanf("%d %d", &size.x, &size.y);
 
+	FILE * log;
+	log = fopen("../../log/canvas_size.dat", "w");
+	fprintf(log, "wight, height\n");
+	fprintf(log, "%d, %d", size.x, size.y);
+	fclose(log);
+
 	return size;
 }
+
+
 int menue()
 {
 	int menue_number;
@@ -27,6 +34,7 @@ int menue()
 	scanf("%d", &menue_number);
 	return menue_number;
 }
+
 void setup()
 {
 	int menue_number;

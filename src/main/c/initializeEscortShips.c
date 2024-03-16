@@ -6,20 +6,12 @@
 #include"../header_files/structure.h"
 #include"../header_files/getShip.h"
 #include"../header_files/random.h"
+#include"../header_files/loadInitial.h"
 
 #define MAXVELOCITY 100
 #define MINANGLE 1
 #define MAXANGLE 90
 
-
-Coordinates initializeEPosition(Coordinates canvas_size)
-{
-	Coordinates position;
-	position.x = intRandomNumber(0, canvas_size.x);
-	position.y = intRandomNumber(0, canvas_size.y);
-	
-	return position;
-}
 
 bool validatePosition(Coordinates position, int record_count,  Coordinates position_record[record_count])
 {	
@@ -33,6 +25,15 @@ bool validatePosition(Coordinates position, int record_count,  Coordinates posit
 
 }	
 
+Coordinates initializeEPosition(Coordinates canvas_size)
+{
+	Coordinates position;
+	position.x = intRandomNumber(0, canvas_size.x);
+	position.y = intRandomNumber(0, canvas_size.y);
+	
+	return position;
+}
+
 //Deteming the maximum velocity that can apply for a ship according to the canvas size
 float findMaxVelocity(Coordinates canvas_size)
 {
@@ -42,7 +43,7 @@ float findMaxVelocity(Coordinates canvas_size)
 /**
  * Initialize Escort Ships and Saving it in to the file
 */
-void initializeEscortShips(Coordinates battalian, Coordinates canvas_size)
+void initializeEscortShips(Coordinates canvas_size)
 {
 	//Escort ship type
 	EscortShipType ship_type;
@@ -61,10 +62,11 @@ void initializeEscortShips(Coordinates battalian, Coordinates canvas_size)
 	// 	printf("Enter the number of escort ships: \n");
 	// 	scanf("%d", &n);
 	// }
-	
+
+	InitialConditionsBattalian battalian = loadBattalianShip();	
 
 	Coordinates ship_positions[n+1];
-	ship_positions[0] = battalian;
+	ship_positions[0] = battalian.position;
 
 	//creating the initial condition escort file
 	FILE *escort_file;

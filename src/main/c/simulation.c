@@ -65,10 +65,14 @@ void findMaxMinAngle(float * minA, float * maxA)
 
 }
 
-bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_count], Coordinates battalian, BattalianShipLog * Blog)
+bool escortSimulation(int escort_count, InitialConditionsEscort * escort , Coordinates battalian)
 {
-    Blog->position.x = battalian.x;
-    Blog->position.y = battalian.y;
+
+    BattalianShipLog Blog;
+
+    Blog.position.x = battalian.x;
+    Blog.position.y = battalian.y;
+
 
     for (int i = 0; i < escort_count; i++)
     {
@@ -95,11 +99,12 @@ bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_co
      
         if (check(distance, ship_min_range, ship_max_range))
         {
-            printf("Battalian Ship is going to sink\n");
-            Blog->escort_index = i;
+            printf("BattalianShip Sinked :( \n");
+            Blog.escort_index = i;
 
             printf("Attacked Escort Ship index: %d\n", i);
-            Blog->battaleship_status = 0;
+            Blog.battaleship_status = 0;
+            saveBattalianLog(Blog);
 
             return true;
 
@@ -107,10 +112,12 @@ bool escortSimulation(int escort_count, InitialConditionsEscort escort[escort_co
             // printf("BattalianShip is not going to sink\n");
         }
     }
-    printf("BattalianShip is not hit by the Escort ship\n");
-    Blog->battaleship_status = 1;
+    printf("BattalianShip Suvived :) \n");
+    Blog.battaleship_status = 1;
     return false;
 }
+
+
 float calculateTime(float velocity, float distance)
 {
     return distance / cos(velocity * 3.14 / 180) ;
@@ -147,8 +154,80 @@ void battalianSimulation(InitialConditionsBattalian battalian, int escort_count,
     
 }
 
+void removeRow(int * escort_count, InitialConditionsEscort * escort, int index)
+{
+    for(int i = index; i < *escort_count -1; i++)
+    {
+        escort[i] = escort[i+1];
+    }
+    * escort_count --;
+}
+
+void removeAttackedEscots(int escort_count, InitialConditionsEscort * escorts)
+{
+    //need to change the size
+    // InitialConditionsEscort * new_escorts = (InitialConditionsEscort *)calloc (10, sizeof(InitialConditionsEscort));
+
+    int attack_count = 0;
+
+    int * attacked_escorts = loadAttackedEscorts(&attack_count);
+    if(attacked_escorts != NULL)
+    {
+        int x = 0;
+        for(int i = 0; i < escort_count; i++)
+        {
+            for(int j = 0; j < attack_count; j++)
+            {
+                if (escorts[i].index == attacked_escorts[j])
+                {
+                    removeRow(&escort_count, escorts, i);
+                }
+            }
+        }
+    }
+
+}
 
 void simulation1()
+{
+    //Resetiing the log files before running the simulation
+    resetBattalianLog();
+    resetEscortLog();
+
+    //Loading the escort ships and battaleships 
+    int escort_ship_count;
+    InitialConditionsEscort * escort_ships = loadEscortShip( & escort_ship_count);
+    InitialConditionsBattalian battalian = loadBattalianShip();
+
+    //Running the simulation
+    if (!escortSimulation(escort_ship_count, escort_ships, battalian.position))
+    {
+        battalianSimulation(battalian, escort_ship_count, escort_ships);
+    }
+
+    free(escort_ships);
+}
+
+Coordinates movePosition(Coordinates current, Coordinates destination)
+{
+
+        if (current.y > destination.y)
+        {
+            current.y --;
+        }else{
+            current.y ++;
+        }
+
+        if (current.x > destination.x)
+        {
+                current.x --;
+        }else{
+                current.x ++;
+        }
+
+}
+
+void simulation2()
 {
     resetBattalianLog();
     resetEscortLog();
@@ -157,60 +236,72 @@ void simulation1()
     InitialConditionsEscort * escort_ships = loadEscortShip( & escort_ship_count);
     InitialConditionsBattalian battalian = loadBattalianShip();
 
-    BattalianShipLog Blog;
+    Coordinates canvas_size = loadCanvasSize();
+    Coordinates current = battalian.position;
+    
+    Coordinates destination;
+    destination.x = intRandomNumber(0, canvas_size.x);
+    destination.y = intRandomNumber(0, canvas_size.y);
 
-    // EscortShipsLog * Elog = (EscortShipsLog *)calloc(escort_ship_count, sizeof(EscortShipsLog) )
+    printf("random position %d %d\n", destination.x, destination.y);
+    printf("current position %d %d\n", current.x, current.y);
 
-    if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &Blog))
+    //  Running the simulation
+    if (!escortSimulation(escort_ship_count, escort_ships, battalian.position))
     {
         battalianSimulation(battalian, escort_ship_count, escort_ships);
-    }else{
-        saveBattalianLog(Blog);
-    }
-
-
-    free(escort_ships);
-}
-
-
-void simulation2()
-{
-    resetBattalianLog();
-    resetEscortLog();
-
-    Coordinates canvas_size = loadCanvasSize();
-    InitialConditionsBattalian battalian = loadBattalianShip();
-    Coordinates current_position = battalian.position;
-    
-    Coordinates position;
-    position.x = intRandomNumber(0, canvas_size.x);
-    position.y = intRandomNumber(0, canvas_size.y);
-
-    printf("random position %d %d", position.x, position.y);
-    printf("current position %d %d\n", current_position.x, current_position.y);
-
-    while (current_position.x != position.x)
-    {
-        while(current_position.y != position.y)
+        while (current.x != destination.x || current.y != destination.y)
         {
-            printf("current position %d %d\n", current_position.x, current_position.y);
-
-            if (current_position.y > position.y)
+            if (current.y > destination.y)
             {
-                current_position.y --;
+                current.y --;
+            }
+            else if(current.y < destination.y)
+            {
+                current.y ++;
+            }
+
+            if (current.x > destination.x)
+            {
+                    current.x --;
+            }
+            else if(current.x < destination.x)
+            {
+                    current.x ++;
+            }
+            printf("current position %d\n", current.x, current.y);
+            //  Running the simulation
+            removeAttackedEscots(escort_ship_count, escort_ships);
+            if (!escortSimulation(escort_ship_count, escort_ships, battalian.position))
+            {
+                battalianSimulation(battalian, escort_ship_count, escort_ships);
             }else{
-                current_position.y ++;
+                break;
             }
         }
-
-        if (current_position.x > position.x)
-        {
-                current_position.x --;
-        }else{
-                current_position.x ++;
-        }
-        printf("current position %d %d\n", current_position.x, current_position.y);
-
     }
+    free(escort_ships);
     
 }
+
+// int main()
+// {
+//     int escort_ship_count;
+
+//     InitialConditionsEscort * escort_ships = loadEscortShip( & escort_ship_count);
+//     InitialConditionsBattalian battalian = loadBattalianShip();
+
+//     for (int i = 0; i < escort_ship_count; i++)
+//     {
+//         printf("%d\n", escort_ships[i].index);
+//     }
+//     removeAttackedEscots(escort_ship_count, escort_ships);
+//     printf("--");
+
+//     for (int i = 0; i < escort_ship_count; i++)
+//     {
+//         printf("%d\n", escort_ships[i].index);
+//     }
+    
+
+// }

@@ -84,6 +84,33 @@ Coordinates loadCanvasSize()
 
     
 }
+
+int * loadAttackedEscorts(int * count)
+{
+    // need to find the escort ship count
+    int * index = (int *)malloc(sizeof(int) * 10);
+
+    FILE *file;
+    file = fopen("../../log/escortsship_log.dat", "r");
+    if(file == NULL)
+    {
+        printf("Error while loading the the attacked ships");
+    }
+
+    char line[20];
+    fgets(line, sizeof(line), file);
+    int i = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        sscanf(line, "%d", &index[i]);
+        i++;
+    }
+    fclose(file);
+
+    * count = i;
+    return index;
+
+}
 // int main()
 // {
 //     Coordinates x = loadCanvasSize();

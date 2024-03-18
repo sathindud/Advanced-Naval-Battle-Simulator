@@ -154,39 +154,9 @@ void battalianSimulation(InitialConditionsBattalian battalian, int escort_count,
     
 }
 
-void removeRow(int * escort_count, InitialConditionsEscort * escort, int index)
-{
-    for(int i = index; i < *escort_count -1; i++)
-    {
-        escort[i] = escort[i+1];
-    }
-    * escort_count --;
-}
-
-void removeAttackedEscots(int escort_count, InitialConditionsEscort * escorts)
-{
-    //need to change the size
-    // InitialConditionsEscort * new_escorts = (InitialConditionsEscort *)calloc (10, sizeof(InitialConditionsEscort));
-
-    int attack_count = 0;
-
-    int * attacked_escorts = loadAttackedEscorts(&attack_count);
-    if(attacked_escorts != NULL)
-    {
-        int x = 0;
-        for(int i = 0; i < escort_count; i++)
-        {
-            for(int j = 0; j < attack_count; j++)
-            {
-                if (escorts[i].index == attacked_escorts[j])
-                {
-                    removeRow(&escort_count, escorts, i);
-                }
-            }
-        }
-    }
-
-}
+/**
+ * Simulation 01
+*/
 
 void simulation1()
 {
@@ -208,6 +178,41 @@ void simulation1()
     free(escort_ships);
 }
 
+void removeRow(int * escort_count, InitialConditionsEscort * escort, int index)
+{
+    for(int i = index; i < *escort_count -1; i++)
+    {
+        escort[i] = escort[i+1];
+    }
+    * escort_count -= 1;
+}
+
+void removeAttackedEscots(int * escort_count, InitialConditionsEscort * escorts)
+{
+    //need to change the size
+    // InitialConditionsEscort * new_escorts = (InitialConditionsEscort *)calloc (10, sizeof(InitialConditionsEscort));
+
+    int attack_count = 0;
+
+    int * attacked_escorts = loadAttackedEscorts(&attack_count);
+    if(attacked_escorts != NULL)
+    {
+        int x = 0;
+        for(int i = 0; i < *escort_count; i++)
+        {
+            for(int j = 0; j < attack_count; j++)
+            {
+                if (escorts[i].index == attacked_escorts[j])
+                {
+                    removeRow(escort_count, escorts, i);
+                }
+            }
+        }
+    }
+
+}
+
+
 Coordinates movePosition(Coordinates current, Coordinates destination)
 {
 
@@ -226,6 +231,9 @@ Coordinates movePosition(Coordinates current, Coordinates destination)
         }
 
 }
+/**
+ * Simulation 2
+*/
 
 void simulation2()
 {
@@ -235,6 +243,8 @@ void simulation2()
     int escort_ship_count;
     InitialConditionsEscort * escort_ships = loadEscortShip( & escort_ship_count);
     InitialConditionsBattalian battalian = loadBattalianShip();
+
+    printf("Escort count: %d", escort_ship_count);
 
     Coordinates canvas_size = loadCanvasSize();
     Coordinates current = battalian.position;
@@ -269,9 +279,10 @@ void simulation2()
             {
                     current.x ++;
             }
-            printf("current position %d\n", current.x, current.y);
+            printf("current position %d %d\n", current.x, current.y);
             //  Running the simulation
-            removeAttackedEscots(escort_ship_count, escort_ships);
+            removeAttackedEscots(&escort_ship_count, escort_ships);
+            printf("Escort count: %d\n", escort_ship_count);
             if (!escortSimulation(escort_ship_count, escort_ships, battalian.position))
             {
                 battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -295,13 +306,15 @@ void simulation2()
 //     {
 //         printf("%d\n", escort_ships[i].index);
 //     }
-//     removeAttackedEscots(escort_ship_count, escort_ships);
+//     printf("Escort count: %d", escort_ship_count);
+//     removeAttackedEscots(&escort_ship_count, escort_ships);
 //     printf("--");
 
 //     for (int i = 0; i < escort_ship_count; i++)
 //     {
 //         printf("%d\n", escort_ships[i].index);
 //     }
+//     printf("Escort count: %d", escort_ship_count);
     
 
 // }

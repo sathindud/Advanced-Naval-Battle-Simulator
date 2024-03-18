@@ -19,7 +19,7 @@ void resetBattalianLog()
 {
     FILE *log;
     log = fopen("../../log/battaloanship_log.dat", "w");
-    fprintf(log, "Battalian.x, Battalian.y, status, Hitted_escort_index\n");
+    fprintf(log, "Battalian.x, Battalian.y, status, cumulative_impact, Hitted_escort_index\n");
     fclose(log);
 }
 
@@ -31,7 +31,7 @@ void saveBattalianLog(BattalianShipLog details)
     if(log == NULL)
         printf("Cannot open the log file\n");
 
-    fprintf(log, "%d, %d, %d, %d\n", details.position.x, details.position.y, details.battaleship_status, details.escort_index);
+    fprintf(log, "%d, %d, %d, %.2f, %d\n", details.position.x, details.position.y, details.battaleship_status, details.cumulative_impact, details.escort_index);
     fclose(log);
 }
 void resetEscortLog()
@@ -52,7 +52,7 @@ void saveEscortLog(EscortShipsLog details)
         printf("Cannot open the log file\n");
     
     
-    fprintf(log, "%d, %f\n", details.index, details.time);
+    fprintf(log, "%d, %.2f\n", details.index, details.time);
     
     fclose(log);
     

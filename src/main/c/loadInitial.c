@@ -16,15 +16,14 @@ InitialConditionsBattalian loadBattalianShip()
     fgets(line, sizeof(line), ship_file);
     
 
-    while (fgets(line, sizeof(line), ship_file))
-    {
-        sscanf(line, "%d, %d, %c, %f", &ship.position.x, &ship.position.y, &ship.type, &ship.maxV);
-
-    }
+    fgets(line, sizeof(line), ship_file);
     if (line == NULL)
     {
         printf("File is empty no BattalianShip\n");
         ship.position.x = -1;
+    }else{
+        sscanf(line, "%d, %d, %c, %f", &ship.position.x, &ship.position.y, &ship.type, &ship.maxV);
+        ship.max_angle = BMAX_ANGLE;
     }
     
     fclose(ship_file);
@@ -54,7 +53,7 @@ InitialConditionsEscort * loadEscortShip(int * count)
     int i = 0;
     while (fgets(line, sizeof(line), ship_file))
     {
-        sscanf(line, "%d, %d, %d, %f, %f, %f, %f, %5c", &ship[i].index, &ship[i].position.x, &ship[i].position.y, &ship[i].maxV, &ship[i].minV, &ship[i].maxA, &ship[i].minA, ship[i].type);
+        sscanf(line, "%d, %d, %d, %f, %f, %f, %f, %f, %5c", &ship[i].index, &ship[i].position.x, &ship[i].position.y, &ship[i].impact_power, &ship[i].maxV, &ship[i].minV, &ship[i].maxA, &ship[i].minA, ship[i].type);
         i++;
     }
     * count = i;
@@ -99,10 +98,13 @@ int * loadAttackedEscorts(int * count)
 
     char line[20];
     fgets(line, sizeof(line), file);
+    
     int i = 0;
     while (fgets(line, sizeof(line), file))
     {
         sscanf(line, "%d", &index[i]);
+        // printf("loading:: %d\n", index[i]);
+
         i++;
     }
     fclose(file);

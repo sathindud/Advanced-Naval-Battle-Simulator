@@ -73,7 +73,7 @@ void initializeEscortShips(Coordinates canvas_size)
 	escort_file = fopen("../../log/initial_condition_escort.dat", "w");
 	
 //Inputting the inicial conditions for each escort ship and writing it to the file.
-	fprintf(escort_file, "index, position, maxV, minV, maxA, minA, type\n");
+	fprintf(escort_file, "index, position, impact_power, maxV, minV, maxA, minA, type\n");
 	for (int i = 0; i < n; i++)
 	{
 	//getting a random ship
@@ -111,14 +111,14 @@ void initializeEscortShips(Coordinates canvas_size)
 	float max_velocity = findMaxVelocity(canvas_size);
 
 	escort.maxV = floatRandomNumber(0, max_velocity);	
-	printf("Escort Ship maximum velocity: %f\n", escort.maxV);
+	printf("Escort Ship maximum velocity: %.2f\n", escort.maxV);
 
 	if(ship_type.maxV > 0)
 		escort.maxV = ship_type.maxV * escort.maxV;
 
 	//Finding the minimum velocity
 	escort.minV = floatRandomNumber(0, escort.maxV);
-	printf("Escort Ship minimum velocity: %f\n", escort.minV );
+	printf("Escort Ship minimum velocity: %.2f\n", escort.minV );
 
 	//Calculating the maximum angle
 	escort.minA = floatRandomNumber(MINANGLE, MAXANGLE);
@@ -127,11 +127,11 @@ void initializeEscortShips(Coordinates canvas_size)
 	escort.maxA = escort.minA + ship_type.angle_range;
 	if (escort.maxA > 90)
 		escort.maxA = 90;
-			printf("Escort Ship maximum angle  %f\n", escort.maxA);
+			printf("Escort Ship maximum angle  %.2f\n", escort.maxA);
 
 
 	//printing in the file
-			fprintf(escort_file, "%d, %d, %d, %f, %f, %f, %f, %s\n", escort.index, escort.position.x, escort.position.y, escort.maxV, escort.minV, escort.maxA, escort.minA, escort.type);
+			fprintf(escort_file, "%d, %d, %d, %.2f, %.2f, %.2f, %.2f, %.2f, %s\n", escort.index, escort.position.x, escort.position.y, ship_type.impact_power, escort.maxV, escort.minV, escort.maxA, escort.minA, escort.type);
 
 	}
 	fclose(escort_file);

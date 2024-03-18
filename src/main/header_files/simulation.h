@@ -1,5 +1,7 @@
 void simulation1();
 void simulation2();
+void simulation3();
+void simulation4();
 
 // void escortSimulation(int escort_count, InitialConditionsEscort escort[escort_count], Coordinates battalian);
 // void findMaxMinAngle(float * minA, float * maxA);

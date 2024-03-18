@@ -101,7 +101,7 @@ void initializeBattalianShip(Coordinates canvas_size)
 
         //writing the inicial conditions for each escort ship and writing it to the file.
         fprintf(battalian_file, "position, type, maxV\n");
-        fprintf(battalian_file, "%d, %d, %c, %f\n", position.x, position.y, battalian.type, battalian.maxV);
+        fprintf(battalian_file, "%d, %d, %c, %.2f\n", position.x, position.y, battalian.type, battalian.maxV);
 
         fclose(battalian_file);
 		

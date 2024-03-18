@@ -93,6 +93,12 @@ void simulation()
 		case 2:
 			simulation2();
 			break;
+		case 3:
+			simulation3();
+			break;
+		case 4:
+			simulation4();
+			break;
 		default:
 			printf("Invaild Input\n");
 			break;

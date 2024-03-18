@@ -1,4 +1,6 @@
 #define BATTALIAN_SHIPS_TYPES 4
+#define BMAX_ANGLE 45
+
 #define GRAVITY 9.8
 
 
@@ -11,6 +13,7 @@ typedef struct{
 typedef struct{
         int index;
         Coordinates position;
+		float impact_power;
 		float maxV;
         float minV;
         float maxA;
@@ -34,6 +37,7 @@ typedef struct{
 typedef struct{
     Coordinates position;
 	float maxV;
+	int max_angle;
     char type;
 }InitialConditionsBattalian;
 
@@ -48,6 +52,7 @@ typedef struct{
 	Coordinates position;
 	int battaleship_status;
 	int escort_index;
+	float cumulative_impact;
 }BattalianShipLog;
 
 typedef struct{

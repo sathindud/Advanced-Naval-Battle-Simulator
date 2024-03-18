@@ -2,6 +2,29 @@
 #include<stdlib.h>
 #include"../header_files/structure.h"
 
+UserInput loadUserInput()
+{
+    UserInput user_input;
+
+    FILE * file;
+    file = fopen("../../log/user_input.dat", "r");
+    if (file == NULL)   
+    {
+        printf("Error while loading the canvas size file");
+    }
+
+    char line[50];
+    fgets(line, sizeof(line), file);
+
+    fgets(line, sizeof(line), file);
+    sscanf(line, "%d, %d ,%d", &user_input.canvas_size.x, &user_input.canvas_size.y, &user_input.escort_count);
+    fclose(file);
+
+    return user_input;
+
+    
+}
+
 InitialConditionsBattalian loadBattalianShip()
 {
     InitialConditionsBattalian ship;
@@ -33,8 +56,7 @@ InitialConditionsBattalian loadBattalianShip()
 
 InitialConditionsEscort * loadEscortShip(int * count)
 {
-    //Need to change the size of the array according to the ship count
-    InitialConditionsEscort * ship = (InitialConditionsEscort *)calloc (10, sizeof(InitialConditionsEscort));
+    InitialConditionsEscort * ship = (InitialConditionsEscort *)calloc (loadUserInput().escort_count, sizeof(InitialConditionsEscort));
 
     if(ship == NULL)
     {
@@ -54,6 +76,7 @@ InitialConditionsEscort * loadEscortShip(int * count)
     while (fgets(line, sizeof(line), ship_file))
     {
         sscanf(line, "%d, %d, %d, %f, %f, %f, %f, %f, %5c", &ship[i].index, &ship[i].position.x, &ship[i].position.y, &ship[i].impact_power, &ship[i].maxV, &ship[i].minV, &ship[i].maxA, &ship[i].minA, ship[i].type);
+        // printf("%s", ship[i].type);
         i++;
     }
     * count = i;
@@ -62,32 +85,11 @@ InitialConditionsEscort * loadEscortShip(int * count)
     
 }
 
-Coordinates loadCanvasSize()
-{
-    Coordinates size;
 
-    FILE * file;
-    file = fopen("../../log/canvas_size.dat", "r");
-    if (file == NULL)   
-    {
-        printf("Error while loading the canvas size file");
-    }
-
-    char line[50];
-    fgets(line, sizeof(line), file);
-    fgets(line, sizeof(line), file);
-    sscanf(line, "%d, %d", &size.x, &size.y);
-    fclose(file);
-
-    return size;
-
-    
-}
 
 int * loadAttackedEscorts(int * count)
 {
-    // need to find the escort ship count
-    int * index = (int *)malloc(sizeof(int) * 10);
+    int * index = (int *)malloc(sizeof(int) * loadUserInput().escort_count);
 
     FILE *file;
     file = fopen("../../log/escortsship_log.dat", "r");
@@ -115,15 +117,18 @@ int * loadAttackedEscorts(int * count)
 }
 // int main()
 // {
-//     Coordinates x = loadCanvasSize();
-//     printf("%d %d", x.x, x.y);
-//     // InitialConditionsBattalian ship = loadBattalianShip();
-//     // printf("%f", ship.maxV);
-//     // // InitialConditionsEscort *x = loadEscortShip();
-//     // // for(int i = 0; i < 10; i++)
-//     // // {
-//     // //         printf("%d\n",x[i].position.x);
+//     int  count = 0;
+//     InitialConditionsEscort * s = loadEscortShip(&count);
+//     free(s);
+//     // Coordinates x = loadCanvasSize();
+//     // printf("%d %d", x.x, x.y);
+//     // // InitialConditionsBattalian ship = loadBattalianShip();
+//     // // printf("%f", ship.maxV);
+//     // // // InitialConditionsEscort *x = loadEscortShip();
+//     // // // for(int i = 0; i < 10; i++)
+//     // // // {
+//     // // //         printf("%d\n",x[i].position.x);
 
-//     // // }
+//     // // // }
 //     return 0;
 // }

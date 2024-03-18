@@ -7,6 +7,7 @@
 #include "../header_files/random.h"
 #include "../header_files/loadInitial.h"
 #include "../header_files/saveSimulation.h"
+#include "../header_files/simulationStat.h"
 
 #define HEALTH 100
 
@@ -103,20 +104,20 @@ bool escortSimulation(int escort_count, InitialConditionsEscort * escort , Coord
 
         if (check(distance, ship_min_range, ship_max_range))
         {
-            printf("BattalianShip Hitted * \n");
+            // printf("BattalianShip Hitted * \n");
             if(* health > 0)
             {
-                * health -= (*health) * escort[i].impact_power;
+                * health -= HEALTH * escort[i].impact_power;
                 Blog.escort_index = i;
 
-                printf("Attacked Escort Ship index: %d\n", i);
-                printf("Battalianship Health: %f\n", * health);
+                // printf("Attacked Escort Ship index: %d\n", i);
+                // printf("Battalianship Health: %f\n", * health);
 
             }else{
-                printf("BattalianShip Sinked :( \n");
+                // printf("BattalianShip Sinked :( \n");
                 Blog.escort_index = i;
 
-                printf("Attacked Escort Ship index: %d\n", i);
+                // printf("Attacked Escort Ship index: %d\n", i);
                 Blog.battaleship_status = 0;
                 saveBattalianLog(Blog);
                 return true;
@@ -125,7 +126,7 @@ bool escortSimulation(int escort_count, InitialConditionsEscort * escort , Coord
             // printf("BattalianShip is not going to sink\n");
         }
     }
-    printf("BattalianShip Suvived :) \n");
+    // printf("BattalianShip Suvived :) \n");
     Blog.battaleship_status = 1;
     Blog.cumulative_impact = * health;
 
@@ -146,7 +147,6 @@ void battalianSimulation(InitialConditionsBattalian battalian, int escort_count,
     // printf("Battalian Ship Range: %f", battalian.maxV);
 
     int attacked_count = 0;
-    float total_time = 0;
 
 
     for (int i = 0; i < escort_count; i++)
@@ -157,7 +157,6 @@ void battalianSimulation(InitialConditionsBattalian battalian, int escort_count,
         {
             // printf("Escort Ship %d is attacked by the battalian\n", escort[i].index);
             float time = calculateTime(battalian.maxV, distance);
-            total_time += time;
             attacked_count ++;
 
             Elog.index = escort[i].index;
@@ -165,9 +164,8 @@ void battalianSimulation(InitialConditionsBattalian battalian, int escort_count,
             saveEscortLog(Elog);
         }
     }
-    printf("Attacked Escort Ships Count: %d \n ", attacked_count);
-    printf("Total time it takes: %fs \n ", total_time);
-    
+    // printf("Attacked Escort Ships Count: %d \n ", attacked_count);
+
 }
 
 /**
@@ -188,12 +186,15 @@ void simulation1()
     float health = 0;
 
     //Running the simulation
+    printf("Simulation is in Progress ...\n ");
     if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
     {
         battalianSimulation(battalian, escort_ship_count, escort_ships);
     }
 
     free(escort_ships);
+    simulationStat();
+
 }
 
 void removeRow(int * escort_count, InitialConditionsEscort * escort, int index)
@@ -268,19 +269,21 @@ void simulation2()
 
     float health = -1;
 
-    printf("Escort count: %d\n", escort_ship_count);
+    // printf("Escort count: %d\n", escort_ship_count);
 
-    Coordinates canvas_size = loadCanvasSize();
+    Coordinates canvas_size = loadUserInput().canvas_size;
     Coordinates current = battalian.position;
     
     Coordinates destination;
     destination.x = intRandomNumber(0, canvas_size.x);
     destination.y = intRandomNumber(0, canvas_size.y);
 
-    printf("random position %d %d\n", destination.x, destination.y);
-    printf("current position %d %d\n", current.x, current.y);
+    // printf("random position %d %d\n", destination.x, destination.y);
+    // printf("current position %d %d\n", current.x, current.y);
 
     //  Running the simulation
+    printf("Simulation is in Progress ... \n");
+
     if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
     {
         battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -306,10 +309,10 @@ void simulation2()
             battalian.position.x = current.x;
             battalian.position.y = current.y;
 
-            printf("current position %d %d\n", current.x, current.y);
+            // printf("current position %d %d\n", current.x, current.y);
             //  Running the simulation
             removeAttackedEscots(&escort_ship_count, escort_ships);
-            printf("Escort count: %d\n", escort_ship_count);
+            // printf("Escort count: %d\n", escort_ship_count);
             if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
             {
                 battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -319,6 +322,8 @@ void simulation2()
         }
     }
     free(escort_ships);
+    simulationStat();
+
     
 }
 int findItterationCount(Coordinates current, Coordinates destination)
@@ -363,22 +368,24 @@ void simulation3()
 
     float health = 0;
 
-    printf("Escort count: %d\n", escort_ship_count);
+    // printf("Escort count: %d\n", escort_ship_count);
 
-    Coordinates canvas_size = loadCanvasSize();
+    Coordinates canvas_size = loadUserInput().canvas_size;
     Coordinates current = battalian.position;
     
     Coordinates destination;
     destination.x = intRandomNumber(0, canvas_size.x);
     destination.y = intRandomNumber(0, canvas_size.y);
 
-    printf("random position %d %d\n", destination.x, destination.y);
-    printf("current position %d %d\n", current.x, current.y);
+    // printf("random position %d %d\n", destination.x, destination.y);
+    // printf("current position %d %d\n", current.x, current.y);
 
     //Get a random k value 
     int k = intRandomNumber(0, findItterationCount(current, destination));
 
     //  Running the simulation
+    printf("Simulation is in Progress ...\n ");
+
     if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
     {
         battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -414,7 +421,7 @@ void simulation3()
 
             //  Running the simulation
             removeAttackedEscots(&escort_ship_count, escort_ships);
-            printf("Escort count: %d\n", escort_ship_count);
+            // printf("Escort count: %d\n", escort_ship_count);
             if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
             {
                 battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -424,6 +431,8 @@ void simulation3()
         }
     }
     free(escort_ships);
+    simulationStat();
+
     
 }
 
@@ -436,25 +445,28 @@ void simulation4()
     InitialConditionsEscort * escort_ships = loadEscortShip( & escort_ship_count);
     InitialConditionsBattalian battalian = loadBattalianShip();
 
-    printf("Escort count: %d", escort_ship_count);
+    // printf("Escort count: %d", escort_ship_count);
 
-    Coordinates canvas_size = loadCanvasSize();
+    Coordinates canvas_size = loadUserInput().canvas_size;
     Coordinates current = battalian.position;
     
     Coordinates destination;
     destination.x = intRandomNumber(0, canvas_size.x);
     destination.y = intRandomNumber(0, canvas_size.y);
 
-    printf("random position %d %d\n", destination.x, destination.y);
-    printf("current position %d %d\n", current.x, current.y);
+    // printf("random position %d %d\n", destination.x, destination.y);
+    // printf("current position %d %d\n", current.x, current.y);
 
     //Get a random k value 
+    
     int k = intRandomNumber(0, findItterationCount(current, destination));
 
     //Cumulative Impact
     float health = HEALTH;
 
     //  Running the simulation
+    printf("Simulation is in Progress ... \n");
+
     if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
     {
         battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -490,7 +502,7 @@ void simulation4()
 
             //  Running the simulation
             removeAttackedEscots(&escort_ship_count, escort_ships);
-            printf("Escort count: %d\n", escort_ship_count);
+            // printf("Escort count: %d\n", escort_ship_count);
             if (!escortSimulation(escort_ship_count, escort_ships, battalian.position, &health))
             {
                 battalianSimulation(battalian, escort_ship_count, escort_ships);
@@ -502,6 +514,7 @@ void simulation4()
 
     }
     free(escort_ships);
+    simulationStat();
 }
 
 // int main()

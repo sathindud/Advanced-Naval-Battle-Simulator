@@ -55,13 +55,21 @@ void initializeEscortShips(Coordinates canvas_size)
 	printf("Enter the number of escort ships: ");
 	int n;
 	scanf("%d", &n);
+	
+	while (n <= 0 && n > (canvas_size.x * canvas_size.y) -1)
+	{
+		printf("Enter a valid escort ship count\n");
+		printf("Enter the number of escort ships: \n");
+		scanf("%d", &n);
+	}
 
-	// while (n <= 0 && n > (canvas_size.x * canvas_size.y) -1)
-	// {
-	// 	printf("Enter a valid escort ship count\n");
-	// 	printf("Enter the number of escort ships: \n");
-	// 	scanf("%d", &n);
-	// }
+	FILE *user_input;
+	user_input = fopen("../../log/user_input.dat", "w");
+	fprintf(user_input, "canvas_w, canvas_h, escort_count\n");
+	fprintf(user_input, "%d, %d, %d\n", canvas_size.x, canvas_size.y, n);
+	fclose(user_input);
+
+	
 
 	InitialConditionsBattalian battalian = loadBattalianShip();	
 

@@ -20,8 +20,10 @@ void setup(Coordinates canvas_size)
 	printf("1. Setting Up the Canvas\n");
 	printf("2. Battalianship Propoties\n");
 	printf("3. Escortship Propoties\n");
-	printf("4. Initialize Seed value");
+	printf("4. Initialize Seed value\n");
 	printf("44. Go Back\n");
+	printf("Enter the menue number: ");
+
 	scanf("%d", &user_input);
 
 	while(user_input != 44)
@@ -67,6 +69,8 @@ void setup(Coordinates canvas_size)
 		printf("2. Battalianship Propoties\n");
 		printf("3. Escortship Propoties\n");
 		printf("44. Go Back\n");
+		printf("Enter the menue number: ");
+
 		scanf("%d", &user_input);
 	}
 
@@ -80,6 +84,7 @@ void simulation()
 	printf("1. Simulation 01\n");
 	printf("2. Simulation 02\n");
 	printf("3. Simulation 03\n");
+	printf("4. Simulation 04\n");
 	printf("44. Go Back\n");
 	printf("Enter the menue number: ");
 	scanf("%d", &user_input);
@@ -107,6 +112,7 @@ void simulation()
 		printf("1. Simulation 01\n");
 		printf("2. Simulation 02\n");
 		printf("3. Simulation 03\n");
+		printf("4. Simulation 04\n");
 		printf("44. Go Back\n");
 		printf("Enter the menue number: ");
 		scanf("%d", &user_input);
@@ -124,8 +130,8 @@ int main()
 	 * Test data need to remove
 	*/
 	initializeRandom();
-	canvas_size.x = 100;
-	canvas_size.y = 100;
+	
+	canvas_size = loadUserInput().canvas_size;
 	
 	int user_input;
 	printf("1. Set Up \n");

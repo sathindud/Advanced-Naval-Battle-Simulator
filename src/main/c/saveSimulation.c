@@ -18,7 +18,7 @@
 void resetBattalianLog()
 {
     FILE *log;
-    log = fopen("../../log/battaloanship_log.dat", "w");
+    log = fopen("../../log/battalianship_log.dat", "w");
     fprintf(log, "Battalian.x, Battalian.y, status, cumulative_impact, Hitted_escort_index\n");
     fclose(log);
 }
@@ -26,7 +26,7 @@ void resetBattalianLog()
 void saveBattalianLog(BattalianShipLog details)
 {
     FILE *log;
-    log = fopen("../../log/battaloanship_log.dat", "a");
+    log = fopen("../../log/battalianship_log.dat", "a");
 
     if(log == NULL)
         printf("Cannot open the log file\n");

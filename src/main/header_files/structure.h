@@ -59,3 +59,10 @@ typedef struct{
 	int index;
 	float time;
 }EscortShipsLog;
+
+typedef struct 
+{
+	Coordinates canvas_size;
+	int escort_count;
+}UserInput;
+

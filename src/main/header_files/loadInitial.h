@@ -1,4 +1,4 @@
 InitialConditionsBattalian loadBattalianShip();
 InitialConditionsEscort * loadEscortShip(int * count);
-Coordinates loadCanvasSize();
+UserInput loadUserInput();
 int * loadAttackedEscorts(int * count);

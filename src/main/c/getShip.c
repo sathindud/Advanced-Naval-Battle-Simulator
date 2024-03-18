@@ -5,14 +5,11 @@
 #include"../header_files/structure.h"
 #include"../header_files/random.h"
 
-char * getBattalianShips()
+BattalianShipType * getBattalianShips()
 {
 	// char * ship_notation = (char *)(BATTALIAN_SHIP_COUNT); 
-	char * ship_notation = (char *)malloc(BATTALIAN_SHIPS_TYPES);
+	BattalianShipType * ship_notation = (BattalianShipType *)calloc(BATTALIAN_SHIPS_TYPES, sizeof(BattalianShipType));
 
-
-
-	BattalianShipType ship;
 	
 	//opening the battalian ships file
 	FILE *battalian;
@@ -22,54 +19,25 @@ char * getBattalianShips()
 		printf("Cannot open the battalian ship file\n");
 
 	char buffer[1024];
-	int row = 0;
-	int colum = 0;
+
+	fgets(buffer, 1024, battalian);
 
 	//Reading the file row
+	int i = 0;
+	printf("---------------------------------------------------------------------------\n");
+
+	printf("|%-30s|%-10s |%-30s|\n", "Name","Notation","Gun Name ");
+	printf("---------------------------------------------------------------------------\n");
+
+
 	while (fgets(buffer, 1024, battalian))
 	{
-		colum = 0;
-		row ++;
-
-
-
-		//spliting the values by comma
-		char * value = strtok(buffer, ", ");
-		
-		if (row == 1)
-		{
-			while (value)
-			{
-				printf("%-20s", value);
-				value = strtok(NULL, ", ");
-			}
-			printf("\n");
-			continue;
-		}
-		
-		while (value) {
-		
-			switch (colum){
-				case 0:
-					//For getting the name of the ship
-					printf("%-20s ", value);
-					break;
-				case 1:
-					printf("%-20s", value);
-					ship_notation[row] = value[0];
-
-					break;
-				case 2:
-					printf("%-20s", value);
-					break;
-				
-			}
-			value = strtok(NULL, ", ");
-			colum++;
-		}
-		printf("\n");
+		sscanf(buffer, "%s %c %s", ship_notation[i].name, &ship_notation[i].type, ship_notation[i].gun_name);
+		printf("|%-30s|%-10c |%-30s|\n", ship_notation[i].name, ship_notation[i].type, ship_notation[i].gun_name);
 
 	}
+	printf("---------------------------------------------------------------------------\n");
+
 
 	fclose(battalian);
 
@@ -159,7 +127,7 @@ EscortShipType getRandomShip()
 // 	// EscortShipType e;
 // 	// e = getRandomShip();
 // 	// printf("%d", e.angle_range);
-// 	char * x = getBattalianShips();
+// 	BattalianShipType * x = getBattalianShips();
 // 	// EscortShipType ship;
 // 	// int x = intRandomNumber(2, 6);
 // 	// loadFile(&ship, x);

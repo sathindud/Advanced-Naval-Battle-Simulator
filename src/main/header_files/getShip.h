@@ -1,3 +1,3 @@
 EscortShipType getRandomShip();
-char * getBattalianShips();
+BattalianShipType * getBattalianShips();
 

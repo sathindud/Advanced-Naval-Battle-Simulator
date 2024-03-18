@@ -14,12 +14,6 @@ Coordinates initializeCanvas()
 	printf("Enter the 2D square canvas size: (x y) :");
 	scanf("%d %d", &size.x, &size.y);
 
-	FILE * log;
-	log = fopen("../../log/canvas_size.dat", "w");
-	fprintf(log, "wight, height\n");
-	fprintf(log, "%d, %d", size.x, size.y);
-	fclose(log);
-
 	return size;
 }
 
@@ -79,8 +73,8 @@ void setup()
 
 }
 
-int main()
-{
-	setup();
-	return 0;
-}
+// int main()
+// {
+// 	setup();
+// 	return 0;
+// }

@@ -2,6 +2,8 @@
 #define BMAX_ANGLE 45
 
 #define GRAVITY 9.8
+#define HEALTH 100
+
 
 
 typedef struct{

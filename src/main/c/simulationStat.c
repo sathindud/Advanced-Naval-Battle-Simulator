@@ -4,10 +4,11 @@
 #include "../header_files/structure.h"
 #include "../header_files/loadInitial.h"
 #include "../header_files/getShip.h"
+#include "../header_files/saveSimulation.h"
 
 void printBattalianLog()
 {
-    printf("BattalianShip Log\n");
+    printf("BattalianShip  Health Record \n");
 
     BattalianShipLog battalian;
 
@@ -136,6 +137,19 @@ void simulationStat()
     printf("\n");
     printEscortLog();
 
+}
+
+
+void resetLog(InitialConditionsBattalian battalian)
+{
+    BattalianShipLog initial;
+    //Resetiing the log files before running the simulation
+    initial.position = battalian.position;
+    initial.battaleship_status = 1;
+    initial.escort_index = -2;
+    initial.cumulative_impact = HEALTH;
+    resetBattalianLog(initial);
+    resetEscortLog();
 }
 
 // int main()

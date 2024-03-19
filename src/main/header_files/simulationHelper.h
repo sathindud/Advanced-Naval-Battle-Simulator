@@ -1,0 +1,11 @@
+float range(int angle, float velocity);
+bool check(float distance, float min_range, float max_range);
+void findMaxMinAngle(float * minA, float * maxA);
+bool escortSimulation(int escort_count, InitialConditionsEscort * escort , Coordinates battalian, float * health);
+float calculateTime(float velocity, float distance);
+void battalianSimulation(InitialConditionsBattalian battalian, int escort_count, InitialConditionsEscort escort[escort_count]);
+void removeRow(int * escort_count, InitialConditionsEscort * escort, int index);
+void removeAttackedEscots(int * escort_count, InitialConditionsEscort * escorts);
+Coordinates movePosition(Coordinates current, Coordinates destination);
+int findItterationCount(Coordinates current, Coordinates destination);
+Coordinates changeCoordinate(Coordinates current, Coordinates destination);

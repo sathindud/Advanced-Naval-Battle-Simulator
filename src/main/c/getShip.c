@@ -20,7 +20,7 @@ BattalianShipType * getBattalianShips()
 
 	char buffer[1024];
 
-	fgets(buffer, 1024, battalian);
+	fgets(buffer, sizeof(buffer), battalian);
 
 	//Reading the file row
 	int i = 0;

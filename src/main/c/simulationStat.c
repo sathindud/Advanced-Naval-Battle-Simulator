@@ -18,20 +18,22 @@ void printBattalianLog()
 
     char line[100];
     fgets(line, sizeof(line), log);
-    printf("----------------------------------------------------------------\n");
-    printf("Position    |   Status  | Cumilative Impact | EscortShip Index |\n");
-
-    printf("----------------------------------------------------------------\n");
+    printf("------------------------------------------------------------------\n");
+    printf("|%-10s |%-10s |%-20s|%-20s|\n", "Position","Status","Cumilative Impact", "EscortShip Index");
+    printf("------------------------------------------------------------------\n");
     while (fgets(line, sizeof(line), log))
     {
         sscanf(line, "%d, %d, %d, %f, %d", &battalian.position.x, &battalian.position.y, &battalian.battaleship_status, &battalian.cumulative_impact, &battalian.escort_index);
         if (battalian.escort_index != -1)
         {
-            printf("|%d %d      |   %d      |         %.2f      |       %d         |\n", battalian.position.x, battalian.position.y, battalian.battaleship_status, battalian.cumulative_impact, battalian.escort_index);
+            if(battalian.escort_index == -2)
+                printf("|%-5d %-5d|%-10d |%-20.2f|%-20s|\n", battalian.position.x, battalian.position.y, battalian.battaleship_status, battalian.cumulative_impact, "-");
+            else
+                printf("|%-5d %-5d|%-10d |%-20.2f|%-20d|\n", battalian.position.x, battalian.position.y, battalian.battaleship_status, battalian.cumulative_impact, battalian.escort_index);
         }
         
     }
-    printf("---------------------------------------------------------------\n");
+    printf("-------------------------------------------------------------------\n");
 
     fclose(log);
 }
@@ -51,17 +53,17 @@ void printEscortLog()
 
     char line[100];
     fgets(line, sizeof(line), log);
-    printf("------------------------------------\n");
-    printf("EscortShip Index    | Time to Hit  |\n");
-    printf("------------------------------------\n");
+    printf("---------------------------------------------\n");
+    printf("|%-20s |%-20s |\n", "EscortShip Index","Time to Hit");
+    printf("---------------------------------------------\n");
     while (fgets(line, sizeof(line), log))
     {
         sscanf(line, "%d, %f", &escort.index, &escort.time);
-        printf("|        %d         |      %.2f    |\n", escort.index, escort.time);
+        printf("|%-20d |%-20.2f |\n", escort.index, escort.time);
         total_time += escort.time;
         
     }
-    printf("------------------------------------\n");
+    printf("---------------------------------------------\n");
 
     printf("Total Time to end the battle :- %.2f\n", total_time);
 
@@ -76,14 +78,15 @@ void printBattalianShipInitials()
 
     battalian = loadBattalianShip();
 
-    printf("-----------------------------------------\n");
-    printf("|   Notation  | Position | Max Velocity |\n");
+    printf("--------------------------------------\n");
+    printf("|%-10s|%-10s |%-10s|\n", "Notation","Position","Max Velocity ");
 
-    printf("-----------------------------------------\n");
 
-    printf("|     %c     |     %d %d    |     %.2f    |\n", battalian.type, battalian.position.x, battalian.position.y, battalian.maxV);
+    printf("--------------------------------------\n");
 
-    printf("-----------------------------------------\n");
+    printf("|%-10c|%-5d %-5d|%-10f|\n", battalian.type, battalian.position.x, battalian.position.y, battalian.maxV);
+
+    printf("--------------------------------------\n");
 
 } 
 

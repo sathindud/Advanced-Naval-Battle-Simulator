@@ -24,19 +24,20 @@ BattalianShipType * getBattalianShips()
 
 	//Reading the file row
 	int i = 0;
-	printf("---------------------------------------------------------------------------\n");
+	printf("-------------------------------------------------------------------------------------\n");
 
-	printf("|%-30s|%-10s |%-30s|\n", "Name","Notation","Gun Name ");
-	printf("---------------------------------------------------------------------------\n");
+	printf("|%10s|%-30s|%-10s|%-30s|\n","index","Name","Notation","Gun Name ");
+	printf("-------------------------------------------------------------------------------------\n");
 
 
 	while (fgets(buffer, 1024, battalian))
 	{
 		sscanf(buffer, "%s %c %s", ship_notation[i].name, &ship_notation[i].type, ship_notation[i].gun_name);
-		printf("|%-30s|%-10c |%-30s|\n", ship_notation[i].name, ship_notation[i].type, ship_notation[i].gun_name);
+		printf("|%-10d|%-30s|%-10c |%-30s|\n", i, ship_notation[i].name, ship_notation[i].type, ship_notation[i].gun_name);
+		i++;
 
 	}
-	printf("---------------------------------------------------------------------------\n");
+	printf("--------------------------------------------------------------------------------------\n");
 
 
 	fclose(battalian);

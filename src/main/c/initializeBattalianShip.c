@@ -39,37 +39,28 @@ void initializeBattalianShip(Coordinates canvas_size)
 	
 	InitialConditionsBattalian battalian;
 
-
+	int index = 0;
         /**
 	 *Setting up the battalian ship position
 	 */
 	BattalianShipType * types = getBattalianShips();
 
 	bool found = false;
-	printf("Enter the Battalian Ship Notation you like: ");
-	scanf("%s", &battalian.type);
+	printf("Enter the Battalian Ship Notation index you like: ");
+	scanf("%d", &index);
     while(true)
 	{
-
-		for (int i = 0; i < BATTALIAN_SHIPS_TYPES; i++)
+		if (index < 4 || index > 0)
 		{
-			printf("val: %c %c\n", types[i].type, battalian.type);
-			if(types[i].type == battalian.type)
-			{
-				found = true;
-				break;
-			}
-		}
-
-		if(found)
+			battalian.type = types[index].type;
 			break;
-		else
-		{
+		}else{
 			printf("Error: enter a Valid Notation\n ");
-			scanf("%s", &battalian.type);
+			scanf("%d", &index);
 		}
 
 	}
+	printf("type: %c\n", battalian.type);
 	free(types);
 
 	//Entering the BattalianShip Coordinates

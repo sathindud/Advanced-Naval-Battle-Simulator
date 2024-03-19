@@ -1,4 +1,4 @@
-#define BATTALIAN_SHIPS_TYPES 4
+#define BATTALIAN_SHIPS_TYPES 5
 #define BMAX_ANGLE 45
 
 #define GRAVITY 9.8

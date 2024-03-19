@@ -15,11 +15,12 @@
 //     return format_time;
 // }
 
-void resetBattalianLog()
+void resetBattalianLog(BattalianShipLog details)
 {
     FILE *log;
     log = fopen("../../log/battalianship_log.dat", "w");
     fprintf(log, "Battalian.x, Battalian.y, status, cumulative_impact, Hitted_escort_index\n");
+    fprintf(log, "%d, %d, %d, %.2f, %d\n", details.position.x, details.position.y, details.battaleship_status, details.cumulative_impact, details.escort_index);
     fclose(log);
 }
 

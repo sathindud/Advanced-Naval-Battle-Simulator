@@ -41,11 +41,12 @@ void printBattalianLog()
 
 void printEscortLog()
 {
-    printf("Attacked Escort Ships Log\n");
+    printf("EscortShips Attack Order\n");
 
     EscortShipsLog escort;
 
     float total_time = 0;
+    int count = 0;
 
     FILE * log;
     log = fopen("../../log/escortsship_log.dat", "r");
@@ -62,11 +63,13 @@ void printEscortLog()
         sscanf(line, "%d, %f", &escort.index, &escort.time);
         printf("|%-20d |%-20.2f |\n", escort.index, escort.time);
         total_time += escort.time;
+        count ++;
         
     }
     printf("---------------------------------------------\n");
 
-    printf("Total Time to end the battle :- %.2f\n", total_time);
+    printf("Attacked Escort Ship Count :- %d\n", count);
+    printf("Total Time to end the battle :- %.2f s\n\n", total_time);
 
     fclose(log);
 }
@@ -94,10 +97,10 @@ void printBattalianShipInitials()
 void printEscortShipInitials()
 {
     printf("EscortShips Initial Values\n");
-    int count;
+    int count = loadUserInput().escort_count;
     InitialConditionsEscort * escorts;
 
-    escorts = loadEscortShip(&count);
+    escorts = loadEscortShip();
 
     printf("---------------------------------------------------------------------------------------------------\n");
     printf("|%-10s|%-20s |%-15s|%-15s|%-10s|%-10s|%-10s|\n", "Index","Position","Max Velocity ","Min Velocity","Max Angle","Min Angle","type");

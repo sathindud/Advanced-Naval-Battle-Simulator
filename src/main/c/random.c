@@ -4,11 +4,13 @@
 #include<stdbool.h>
 
 #include"../header_files/structure.h"
-
+//Initializing the random function
 void initializeRandom()
 {
 	srand(time(NULL));
 }
+
+//Genrate a float random number
 
 float floatRandomNumber(float lower, float upper)
 {

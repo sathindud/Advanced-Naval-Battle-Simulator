@@ -6,13 +6,14 @@
 #include"../header_files/structure.h"
 #include"../header_files/getShip.h"
 #include"../header_files/random.h"
+#include "../header_files/loadInitial.h"
 
 
+/**
+ * Input Battalian ship position and validation
+*/
 Coordinates initializeBPosition(Coordinates canvas_size)
 {
-	/**
-	 * Implemnet the user to see the 2d canvas by displaying the canvas
-	 */
 	Coordinates position;
 	
 	printf("Enter position of the Battalian Ship between (%d %d)", canvas_size.x, canvas_size.y);
@@ -33,21 +34,28 @@ Coordinates initializeBPosition(Coordinates canvas_size)
 
 }
 
-void initializeBattalianShip(Coordinates canvas_size)
-{
+/**
+ * Initializing the Battle Ship
+*/
 
+void initializeBattalianShip()
+{
+	Coordinates canvas_size = loadUserInput().canvas_size;
 	
 	InitialConditionsBattalian battalian;
 
-	int index = 0;
-        /**
-	 *Setting up the battalian ship position
-	 */
+    
+	//Loading the Battle ship types from a file
 	BattalianShipType * types = getBattalianShips();
 
 	bool found = false;
+	int index = 0;
+
+	//Promting the user to input the battalian ship index
 	printf("Enter the Battalian Ship Notation index you like: ");
 	scanf("%d", &index);
+
+	//Validating the user input index 
     while(true)
 	{
 		if (index < 4 || index > 0)
@@ -63,6 +71,7 @@ void initializeBattalianShip(Coordinates canvas_size)
 	printf("type: %c\n", battalian.type);
 	free(types);
 
+
 	//Entering the BattalianShip Coordinates
 	Coordinates position = initializeBPosition(canvas_size);
 
@@ -74,8 +83,9 @@ void initializeBattalianShip(Coordinates canvas_size)
 	//Finding the best maximum velcity according to the canvas size
 	float max_velocity = sqrt((canvas_size.x / 2.0)* GRAVITY);
 
+	//Setting the maximum Velocity
 	if(val == 'y' || val == 'Y')
-		battalian.maxV = floatRandomNumber(0, max_velocity);
+		battalian.time = floatRandomNumber(0, max_velocity);
 	else
 	{
 		printf("Enter the maximum velocity:\n");
@@ -83,18 +93,33 @@ void initializeBattalianShip(Coordinates canvas_size)
 		printf("Entering a value less than value for better performance: ");
         scanf("%f", &battalian.maxV);
 	}
-        
-	//creating the initial condition escort file
+
+	//Setting the Time between two gun firering
+	printf("Do you need generate random value for time for two firing (y/n): ");
+	scanf("%s", &val);
+
+    if(val == 'y' || val == 'Y')
+		battalian.time = floatRandomNumber(0, 30);
+	else
+	{
+		printf("Enter the time duration for two firing:\n");
+		printf("note: Normal Battalian Ship takes 30 seconds between two gun firerings\n");
+		printf("Enter a value: ");
+        scanf("%f", &battalian.time);
+	}
+
+	//creating the file initial condition battalian ship file
         FILE *battalian_file;
         battalian_file = fopen("../../log/initial_condition_battalian.dat", "w");
 
         //writing the inicial conditions for each escort ship and writing it to the file.
-        fprintf(battalian_file, "position, type, maxV\n");
-        fprintf(battalian_file, "%d, %d, %c, %.2f\n", position.x, position.y, battalian.type, battalian.maxV);
+        fprintf(battalian_file, "position, type, maxV, time\n");
+        fprintf(battalian_file, "%d, %d, %c, %.2f, %.2f\n", position.x, position.y, battalian.type, battalian.maxV, battalian.time);
 
         fclose(battalian_file);
 		
 }
+
 /*
 int main()
 {

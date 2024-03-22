@@ -105,6 +105,9 @@ EscortShipType getRandomShip()
 				case 7:
 					ship.maxV = atof(value);
 					break;
+				case 8:
+					ship.time = atoi(value);
+					break;
 				
 			}
 		//	printf("%s\n", value);

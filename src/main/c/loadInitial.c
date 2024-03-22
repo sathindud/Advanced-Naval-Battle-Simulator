@@ -45,7 +45,7 @@ InitialConditionsBattalian loadBattalianShip()
         printf("File is empty no BattalianShip\n");
         ship.position.x = -1;
     }else{
-        sscanf(line, "%d, %d, %c, %f", &ship.position.x, &ship.position.y, &ship.type, &ship.maxV);
+        sscanf(line, "%d, %d, %c, %f, %f", &ship.position.x, &ship.position.y, &ship.type, &ship.maxV, &ship.time);
         ship.max_angle = BMAX_ANGLE;
     }
     
@@ -54,7 +54,7 @@ InitialConditionsBattalian loadBattalianShip()
     return ship;
 }
 
-InitialConditionsEscort * loadEscortShip(int * count)
+InitialConditionsEscort * loadEscortShip()
 {
     InitialConditionsEscort * ship = (InitialConditionsEscort *)calloc (loadUserInput().escort_count, sizeof(InitialConditionsEscort));
 
@@ -75,11 +75,10 @@ InitialConditionsEscort * loadEscortShip(int * count)
     int i = 0;
     while (fgets(line, sizeof(line), ship_file))
     {
-        sscanf(line, "%d, %d, %d, %f, %f, %f, %f, %f, %5c", &ship[i].index, &ship[i].position.x, &ship[i].position.y, &ship[i].impact_power, &ship[i].maxV, &ship[i].minV, &ship[i].maxA, &ship[i].minA, ship[i].type);
-        // printf("%s", ship[i].type);
+        sscanf(line, "%d, %d, %d, %f, %f, %f, %f, %f, %d, %5c", &ship[i].index, &ship[i].position.x, &ship[i].position.y, &ship[i].impact_power, &ship[i].maxV, &ship[i].minV, &ship[i].maxA, &ship[i].minA, &ship[i].time, ship[i].type);
+        // printf("%d\n", ship[i].time);
         i++;
     }
-    * count = i;
     fclose(ship_file);
     return ship;
     
@@ -87,7 +86,7 @@ InitialConditionsEscort * loadEscortShip(int * count)
 
 
 
-int * loadAttackedEscorts(int * count)
+int * loadSinkedEscorts(int * count)
 {
     int * index = (int *)malloc(sizeof(int) * loadUserInput().escort_count);
 
@@ -95,7 +94,7 @@ int * loadAttackedEscorts(int * count)
     file = fopen("../../log/escortsship_log.dat", "r");
     if(file == NULL)
     {
-        printf("Error while loading the the attacked ships");
+        printf("Error while loading the the sinked ships");
     }
 
     char line[20];
@@ -113,14 +112,53 @@ int * loadAttackedEscorts(int * count)
 
     * count = i;
     return index;
+}
 
+int * loadAttackedEscorts(int * count)
+{
+    int * index = (int *)malloc(sizeof(int) * loadUserInput().escort_count);
+
+    FILE *file;
+    file = fopen("../../log/battalianship_log.dat", "r");
+    
+    if(file == NULL)
+    {
+        printf("Error while loading the the attacked ships");
+    }
+
+    char line[100];
+    fgets(line, sizeof(line), file);
+    
+    int tempi;
+    int temp_val;
+    float tempf; 
+    
+    int i = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        sscanf(line, "%d, %d, %d, %f, %d", &tempi, &tempi, &tempi, &tempf, &temp_val);
+        if (temp_val > 0)
+        {
+            index[i] = temp_val;
+            i++;
+        }
+    }
+    fclose(file);
+
+    * count = i;
+    return index;
 }
 // int main()
 // {
-//     int  count = 0;
-//     InitialConditionsEscort * s = loadEscortShip(&count);
-//     free(s);
-//     // Coordinates x = loadCanvasSize();
+//     int count = 0;
+//     int * x;
+//     x = loadAttackedEscorts(&count);
+//     printf("%d", count);
+//     free(x);
+//     // int  count = 0;
+//     // InitialConditionsEscort * s = loadEscortShip(&count);
+//     // free(s);
+//     // // Coordinates x = loadCanvasSize();
 //     // printf("%d %d", x.x, x.y);
 //     // // InitialConditionsBattalian ship = loadBattalianShip();
 //     // // printf("%f", ship.maxV);

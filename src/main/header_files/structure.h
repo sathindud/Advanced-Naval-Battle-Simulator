@@ -20,8 +20,14 @@ typedef struct{
         float minV;
         float maxA;
         float minA;
+		int time;
         char type[5];
 }InitialConditionsEscort;
+
+typedef struct{
+	int index;
+	float time;
+}Time;
 
 //Creatinf a Structure for EscortShip types
 typedef struct{
@@ -33,6 +39,7 @@ typedef struct{
 	float minA;
 	float maxV;
 	float minV;
+	int time;
 }EscortShipType;
 
 // Creating a Structer for Battalian Ships
@@ -40,6 +47,7 @@ typedef struct{
     Coordinates position;
 	float maxV;
 	int max_angle;
+	float time;
     char type;
 }InitialConditionsBattalian;
 

@@ -85,7 +85,7 @@ void initializeBattalianShip()
 
 	//Setting the maximum Velocity
 	if(val == 'y' || val == 'Y')
-		battalian.time = floatRandomNumber(0, max_velocity);
+		battalian.maxV = floatRandomNumber(0, max_velocity);
 	else
 	{
 		printf("Enter the maximum velocity:\n");

@@ -10,12 +10,13 @@
 #include "../header_files/initializeEscortShips.h"
 #include "../header_files/loadInitial.h"
 #include "../header_files/simulation.h"
-#include "../header_files/simulation5.h"
+#include "../header_files/simulation_partb.h"
 #include "../header_files/simulationStat.h"
 #include "../header_files/instructions.h"
 void setup()
 {
 	Coordinates canvas_size;
+	canvas_size = loadUserInput().canvas_size;
 
 	int user_input;
 	printf("1. Setting Up the Canvas\n");
@@ -37,14 +38,30 @@ void setup()
 			break;
 			
 		case 2:
-			initializeBattalianShip(canvas_size);
-			break;
+
+			if (canvas_size.x > 0)
+			{
+				initializeBattalianShip();
+				break;
+				
+			}else{
+				printf("Please Set a Canvas Size for first time to Continue\n");
+				break;
+			}
+			
+			
 
 		case 3:
-			printf("Set a Canvas Size for first time to Continue\n");
-			initializeEscortShips(canvas_size);
-			break;
-
+			if (canvas_size.x > 0)
+			{
+				initializeEscortShips(canvas_size);
+				break;
+				
+			}else{
+				printf("Please Set a Canvas Size for first time to Continue\n");
+				break;
+			}
+			
 		case 4:
 			initializeRandom();
 			break;
@@ -75,6 +92,7 @@ void simulation()
 	printf("4. Part 1 C Simulation\n");
 	printf("5. Part 2 A Simulation\n");
 	printf("6. Part 2 B Simulation\n");
+	printf("7. Part 2 C Simulation\n");
 	printf("44. Go Back\n");
 	printf("Enter the menue number: ");
 	scanf("%d", &user_input);
@@ -98,7 +116,15 @@ void simulation()
 			simulation5();
 			break;
 		case 6:
-			simulation6();
+			//simulation6();
+			printf("Part 2 B Did not implemented this feature fully\n");
+			printf("But did some progress in finding the algorith for implemnting.\n");
+			printf("Hoping to implement it in future\n");
+			break;
+		case 7:
+			printf("Part 2 C Did not implemented this feature fully\n");
+			printf("But did some progress in finding the algorith for implemnting.\n");
+			printf("Hoping to implement it in future\n");
 			break;
 		default:
 			printf("Invaild Input\n");
@@ -111,6 +137,7 @@ void simulation()
 		printf("4. Part 1 C Simulation\n");
 		printf("5. Part 2 A Simulation\n");
 		printf("6. Part 2 B Simulation\n");
+		printf("7. Part 2 C Simulation\n");
 		printf("44. Go Back\n");
 		printf("Enter the menue number: ");
 		scanf("%d", &user_input);
@@ -122,13 +149,6 @@ void simulation()
 void sub_main()
 {
 
-
-	
-	/**
-	 * Test data need to remove
-	*/
-	initializeRandom();
-		
 	int user_input;
 	printf("1. Set Up \n");
 	printf("2. Show Simulation\n");
@@ -164,42 +184,44 @@ void sub_main()
 
 int main()
 {
-	simulation6();
-	// printf("------------------------------------\n");
-    // printf("    Advanced Naval Simulator \n");
-    // printf("------------------------------------\n");
-	// int user_input;
-	// printf("1. Main Menue Options\n");
-	// printf("2. View Instructions\n");
-	// printf("3. Simulation Statistics\n");
-	// printf("44. Exit\n");
-	// printf("Enter the menue number: ");
-	// scanf("%d", &user_input);
+	initializeRandom();
 
-	// while (user_input != 44)
-	// {
-	// 	switch (user_input)	
-	// 	{
-	// 	case 1:
-	// 		sub_main();
-	// 		break;
-	// 	case 2:
-	// 		instructions();
-	// 		break;
-	// 	case 3:
-	// 		simulationStat();
-	// 		break;
-	// 	default:
-	// 		printf("Invalid User Input\n");
-	// 		break;
-	// 	}
-	// 	printf("1. Main Menue Options\n");
-	// 	printf("2. View Instructions\n");
-	// 	printf("3. Simulation Statistics\n");
-	// 	printf("44. Exit\n");
-	// 	printf("Enter the menue number: ");
-	// 	scanf("%d", &user_input);
-	// }
+	// simulation6();
+	printf("------------------------------------\n");
+    printf("    Advanced Naval Simulator \n");
+    printf("------------------------------------\n");
+	int user_input;
+	printf("1. Main Menue Options\n");
+	printf("2. View Instructions\n");
+	printf("3. Simulation Statistics\n");
+	printf("44. Exit\n");
+	printf("Enter the menue number: ");
+	scanf("%d", &user_input);
+
+	while (user_input != 44)
+	{
+		switch (user_input)	
+		{
+		case 1:
+			sub_main();
+			break;
+		case 2:
+			instructions();
+			break;
+		case 3:
+			simulationStat();
+			break;
+		default:
+			printf("Invalid User Input\n");
+			break;
+		}
+		printf("1. Main Menue Options\n");
+		printf("2. View Instructions\n");
+		printf("3. Simulation Statistics\n");
+		printf("44. Exit\n");
+		printf("Enter the menue number: ");
+		scanf("%d", &user_input);
+	}
 	
 	
 

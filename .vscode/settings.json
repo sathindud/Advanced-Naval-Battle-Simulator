@@ -3,6 +3,10 @@
         "random.h": "c",
         "cmath": "c",
         "complex": "c",
-        "iterator": "c"
+        "iterator": "c",
+        "stdio.h": "c",
+        "loadinitial.h": "c",
+        "memory_resource": "c",
+        "algorithm": "c"
     }
 }
